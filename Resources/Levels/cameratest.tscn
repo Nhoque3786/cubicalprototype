@@ -1,0 +1,64 @@
+[gd_scene load_steps=4 format=3 uid="uid://t5fv3wlcbbfp"]
+
+[ext_resource type="PackedScene" uid="uid://bjl7p8v1he7ov" path="res://Resources/Stuff/isometricam.tscn" id="1_rpq38"]
+[ext_resource type="PackedScene" uid="uid://kab0vgbwg3xm" path="res://Resources/Blocks/Grass.gltf" id="2_ac2rv"]
+
+[sub_resource type="Environment" id="Environment_nqyfq"]
+background_mode = 1
+background_color = Color(0, 0.398619, 0.93393, 1)
+ambient_light_color = Color(1, 1, 1, 1)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_nqyfq")
+
+[node name="Camera3D" parent="." instance=ExtResource("1_rpq38")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 5.8117)
+
+[node name="Blocks" type="Node3D" parent="."]
+
+[node name="Block" parent="Blocks" instance=ExtResource("2_ac2rv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -1, 0)
+
+[node name="Block" parent="Blocks/Block" instance=ExtResource("2_ac2rv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, -1)
+
+[node name="Block" parent="Blocks/Block/Block" instance=ExtResource("2_ac2rv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, -1)
+
+[node name="Block2" parent="Blocks/Block" instance=ExtResource("2_ac2rv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+
+[node name="Block" parent="Blocks/Block/Block2" instance=ExtResource("2_ac2rv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, -1)
+
+[node name="Block" parent="Blocks/Block/Block2/Block" instance=ExtResource("2_ac2rv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, -1)
+
+[node name="Block3" parent="Blocks/Block" instance=ExtResource("2_ac2rv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4)
+
+[node name="Block" parent="Blocks/Block/Block3" instance=ExtResource("2_ac2rv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, -1)
+
+[node name="Block" parent="Blocks/Block/Block3/Block" instance=ExtResource("2_ac2rv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, -1)
+
+[node name="Block2" parent="Blocks/Block/Block3" instance=ExtResource("2_ac2rv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+
+[node name="Block" parent="Blocks/Block/Block3/Block2" instance=ExtResource("2_ac2rv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, -1)
+
+[node name="Block" parent="Blocks/Block/Block3/Block2/Block" instance=ExtResource("2_ac2rv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, -1)
+
+[node name="Block3" parent="Blocks/Block/Block3" instance=ExtResource("2_ac2rv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4)
+
+[node name="Block" parent="Blocks/Block/Block3/Block3" instance=ExtResource("2_ac2rv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, -1)
+
+[node name="Block" parent="Blocks/Block/Block3/Block3/Block" instance=ExtResource("2_ac2rv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, -1)
