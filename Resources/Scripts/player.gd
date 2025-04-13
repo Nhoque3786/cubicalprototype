@@ -28,9 +28,9 @@ func _physics_process(_delta):
     
     # get camera rotation
     var camera = get_node("isometricam")
-    var camera_rotation = camera.current_rotation
+    var camera_direction = camera.current_direction()
     
-    # Makes the movement based on the camera's current rotation
-    direction = 
+    # Makes the movement based on the camera's current rotation. so that left is left and right is right no matter if you are on south or east.
+    direction = camera_direction
 
 pass

@@ -37,3 +37,7 @@ func _input(event):
 	elif event.is_action_pressed("camera_right"):
 		rotate_right()
 	print("Input detected: ", event.as_text() if event is InputEvent else "Non-input event")
+
+func current_direction():
+	# Converts to direction (0=north, 1=east, 2=south, 3=west)
+	return (current_rotation / (PI/2)) % 4
