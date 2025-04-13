@@ -1,5 +1,5 @@
 # Cubical: Kinda like a FEZ spiritual sucessor, made on godot. (Or some thing like that)
-This dumb project is for a game i'm making for learning how to make games and 100% pure for the love i have for the concept the original game has. 
+This amazing project is for a game i'm making for learning how to make games and 100% pure for the love i have for the concept the original game has. 
 
 **(NOTE: THIS PAGE CAN BE AND WILL BE CHANGED ACCORDING TO HOW THE PROJECT GOES.)**
 
