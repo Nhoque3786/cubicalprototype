@@ -5,8 +5,10 @@
 
 [sub_resource type="Environment" id="Environment_nqyfq"]
 background_mode = 1
-background_color = Color(0, 0.398619, 0.93393, 1)
-ambient_light_color = Color(1, 1, 1, 1)
+background_color = Color(0.219608, 0.705882, 1, 1)
+ambient_light_color = Color(0.219608, 0.705882, 1, 1)
+ambient_light_sky_contribution = 0.0
+reflected_light_source = 2
 
 [node name="Node3D" type="Node3D"]
 
