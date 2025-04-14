@@ -13,7 +13,7 @@ The prototype will be like a little demo at it's core. First for quick testing, 
   - [ ] The map (i dont want people to get lost)
   - [ ] Blocks 2D/3D Mechanic based on Isometricam (Art + Script)
   - [ ] Colectables (AKA Bytes)
-  - [ ] Dinamic music (using .xm files if possible)
+  - [ ] Dynamic music (using .xm files if possible)
   - [ ] Enviroment stuff (Day cicle, backgrounds, etc.)
   
   - [ ] Experimenting:
