@@ -1,9 +1,12 @@
 extends Camera3D
 
-var smooth_speed = 5.0
-var target_rotation = 0.0
-var current_rotation = 0.0
-var orbit_radius = 3.8 
+@export var smooth_speed = 5.0
+@export var target_rotation = 0.0
+@export var current_rotation = 0.0
+@export var orbit_radius = 3.8 
+
+signal rotation_started
+signal rotation_completed
 
 func _ready():
 	
@@ -24,13 +27,20 @@ func _process(delta):
 	print("Camera rotation: ", rotation.y)
 
 func rotate_left():
+	emit_signal("rotation_started")
 	target_rotation += PI/2
 	print("Rotating left. Target rotation: ", target_rotation)
 
+	if abs(current_rotation - target_rotation) < 0.01:
+		emit_signal("rotation_completed")
+
 func rotate_right():
+	emit_signal("rotation_started")
 	target_rotation -= PI/2
 	print("Rotating right. Target rotation: ", target_rotation)
 
+	if abs(current_rotation - target_rotation) < 0.01:
+		emit_signal("rotation_completed")
 func _input(event):
 	if event.is_action_pressed("camera_left"):
 		rotate_left()
