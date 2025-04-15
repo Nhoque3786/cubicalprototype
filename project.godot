@@ -18,6 +18,10 @@ boot_splash/fullsize=false
 boot_splash/image="uid://ck11nqtgve6uf"
 config/icon="uid://cr8rgjvu02y0y"
 
+[autoload]
+
+Game="*res://Resources/Scripts/Game.gd"
+
 [input]
 
 camera_left={
