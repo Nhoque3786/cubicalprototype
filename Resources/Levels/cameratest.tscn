@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://t5fv3wlcbbfp"]
 
-[ext_resource type="PackedScene" uid="uid://bjl7p8v1he7ov" path="res://Resources/Stuff/isometricam.tscn" id="1_rpq38"]
+[ext_resource type="PackedScene" uid="uid://bjl7p8v1he7ov" path="res://Resources/Stuff/Isometricam.tscn" id="1_rpq38"]
 [ext_resource type="PackedScene" uid="uid://kab0vgbwg3xm" path="res://Resources/Blocks/Grass.gltf" id="2_ac2rv"]
 
 [sub_resource type="Environment" id="Environment_nqyfq"]
