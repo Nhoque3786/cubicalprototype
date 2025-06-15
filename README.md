@@ -1,7 +1,8 @@
 # Cubical: Kinda like a FEZ spiritual sucessor, made on godot. (Or some thing like that)
+## Prototype Edition! 
 This amazing project is for a game i'm making for learning how to make games and 100% pure for the love i have for the concept the original game has. 
 
-**(NOTE: THIS PAGE CAN BE AND WILL BE CHANGED ACCORDING TO HOW THE PROJECT GOES.)**
+This is the Prototype Edition, made to launch as a webgame on NG and to experiment with the idea of a 2d/3d game. Full game will be in the works after this is done and i get permission from Polytron.
 
 ## What i'm using for making this?
 Mostly, *Open Source* Software!
