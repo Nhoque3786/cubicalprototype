@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://qqfar1ew374m"]
+
+[ext_resource type="Script" uid="uid://jrbj5sek6cci" path="res://Resources/Scripts/genericblck/blck.gd" id="1_177lj"]
+[ext_resource type="PackedScene" uid="uid://bjl7p8v1he7ov" path="res://Resources/Stuff/Isometricam.tscn" id="2_ua6l2"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_xt8tk"]
+
+[node name="block" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_xt8tk")
+script = ExtResource("1_177lj")
+color = Color(0, 0.65826, 0.327555, 1)
+
+[node name="Isometricam" parent="." instance=ExtResource("2_ua6l2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.50244)
+script = null
