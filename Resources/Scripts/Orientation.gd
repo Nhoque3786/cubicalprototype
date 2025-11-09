@@ -1,6 +1,6 @@
 # Orientation controls. Only for some technical shit. Perhaps weird camera effects
 class_name Orientation
-
+# TODO: Make this work with rotating the map instead. lol
 enum Facing { South, West, North, East }
 
 func get_facing(angle) -> Facing:
