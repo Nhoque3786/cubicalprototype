@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://ckpurs7554hni" path="res://Resources/Sprites/cubic/cubic.png" id="1_wdw13"]
 [ext_resource type="Script" uid="uid://dcm7sxema2bw5" path="res://Resources/Scripts/Player/Player.gd" id="2_l7y46"]
-[ext_resource type="Script" path="res://Resources/Scripts/core/hyprcube.gd" id="4_vxpuc"]
+[ext_resource type="Script" uid="uid://cw82cr8k5myb8" path="res://Resources/Scripts/core/hyprcube.gd" id="4_vxpuc"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_xyahh"]
 
@@ -261,28 +261,28 @@ shape = SubResource("BoxShape3D_wdw13")
 [node name="Enviroment" type="WorldEnvironment" parent="Level"]
 environment = SubResource("Environment_gvvlp")
 
-[node name="Cubic" type="CharacterBody3D" parent="."]
+[node name="Cubic" type="CharacterBody3D" parent="Level"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2961738, 0)
 script = ExtResource("2_l7y46")
 
-[node name="Sprite" type="AnimatedSprite3D" parent="Cubic"]
+[node name="Sprite" type="AnimatedSprite3D" parent="Level/Cubic"]
 pixel_size = 0.1
 billboard = 1
 texture_filter = 0
 sprite_frames = SubResource("SpriteFrames_qp7fm")
 speed_scale = 1.5
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Cubic"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Cubic"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.34849, 0)
 shape = SubResource("BoxShape3D_h0bxe")
 
-[node name="Camera" type="Camera3D" parent="Cubic"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8.033447)
+[node name="Hyprcube" type="Node" parent="."]
+script = ExtResource("4_vxpuc")
+
+[node name="Camera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2961738, 8.033447)
 projection = 1
 fov = 81.56249
 size = 8.0
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Cubic/Camera"]
-
-[node name="Hyprcube" type="Node" parent="."]
-script = ExtResource("4_vxpuc")
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Camera"]
