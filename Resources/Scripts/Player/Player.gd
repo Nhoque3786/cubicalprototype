@@ -92,4 +92,4 @@ func update_animation() -> void:
 func update_direction(input_h: float) -> void:
 	# Flips the sprite based on horizontal input
 	if input_h != 0:
-		animated_sprite.flip_h = input_h < 0
+		animated_sprite.flip_h = input_h < 0 
