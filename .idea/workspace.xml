@@ -5,36 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6473b09f-7e96-4fbe-b9e6-f69008d886db" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Resources/Scripts/core/hyprcam.gd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/project.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/discord.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/discord.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gbrowser_project.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/indexLayout.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/GdSdk.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Blocks/Grass.gltf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Blocks/Grass.gltf.import" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Blocks/Grass_0.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Blocks/Grass_0.png.import" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Blocks/placeholders/grassPH.tscn" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Levels/cameratest.tscn" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Scripts/Camera.gd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Scripts/Camera.gd.uid" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Scripts/Game.gd" beforeDir="false" afterPath="$PROJECT_DIR$/Resources/Scripts/Game.gd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Scripts/Game.gd.uid" beforeDir="false" afterPath="$PROJECT_DIR$/Resources/Scripts/Game.gd.uid" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Scripts/Orientation.gd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Scripts/Orientation.gd.uid" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Scripts/Player.gd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Scripts/Player.gd.uid" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Scripts/cameramenu.gd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Scripts/cameramenu.gd.uid" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Sprites/cubic placeholder.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Sprites/cubic placeholder.png.import" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Stuff/Isometricam.tscn" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TODO.md" beforeDir="false" afterPath="$PROJECT_DIR$/TODO.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project.godot" beforeDir="false" afterPath="$PROJECT_DIR$/project.godot" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Resources/Scripts/Player/camera.gd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Resources/Levels/test/PlayerTest.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/Resources/Levels/test/PlayerTest.tscn" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,61 +15,62 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="285" />
+    <option name="cachedIndexableFilesCount" value="297" />
     <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Object empty" />
+        <option value="Node default" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "Nhoque3786"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Nhoque3786&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/Nhoque3786/cubicalprototype.git",
-    "accountId": "f305f6d3-6d0c-43cc-b155-ae13d4d56bb5"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Nhoque3786/cubicalprototype.git&quot;,
+    &quot;accountId&quot;: &quot;f305f6d3-6d0c-43cc-b155-ae13d4d56bb5&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "00b0ffff",
-  "associatedIndex": 3
-}]]></component>
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;00b0ffff&quot;,
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="36yBs30jiR2KNjNRN6Z1DePkB7f" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "hyprcube",
-    "junie.onboarding.icon.badge.shown": "true",
-    "llm.McpServerEditPanel.switcher": "1",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "to.speed.mode.migration.done": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;hyprcube&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;llm.McpServerEditPanel.switcher&quot;: &quot;1&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected=".NET Executable.Player">
     <configuration name="Debug GDScript (Running session)" type="GDSCRIPT_DEBUG_RUN_CONFIGURATION" factoryName="GdScriptRunFactory">
       <option name="json" value="{&#10;  // Launch: &quot;Launch a new instance of the game&quot;,&#10;  // Attach: &quot;Attach to an already running game, which was started from the Godot Editor&quot;&#10;  &quot;request&quot; : &quot;Attach&quot;,&#10;  &quot;debugServer&quot; : 6006, // port should match the Debug Adapter port in the Godot Editor project settings.&#10;  &quot;scene&quot; : &quot;main&quot;, // main, current, res://path/to/file.tscn&#10;  &#10;  // &quot;playArgs&quot; : [ &quot;--editor&quot; ], // debugging a tool script&#10;  // &quot;playArgs&quot;: [&quot;--debug-collisions&quot;,&quot;--debug-navigation&quot;], // different options&#10;  &#10;  // one click deploy and debug via Godot Editor:&#10;  // &quot;platform&quot;: &quot;Android&quot;, // including Android, iOS, Web and W4 consoles&#10;  // &quot;device&quot;: &quot;0&quot;, // index of the device of a &quot;platform&quot; type&#10;}" />
@@ -157,6 +131,7 @@
       <option name="presentableId" value="Default" />
       <updated>1765969135827</updated>
       <workItem from="1765969151882" duration="4718000" />
+      <workItem from="1766001822359" duration="2227000" />
     </task>
     <servers />
   </component>

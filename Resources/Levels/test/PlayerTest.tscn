@@ -1,7 +1,8 @@
-[gd_scene load_steps=24 format=3 uid="uid://kmhowcpen55l"]
+[gd_scene load_steps=25 format=3 uid="uid://kmhowcpen55l"]
 
 [ext_resource type="Texture2D" uid="uid://ckpurs7554hni" path="res://Resources/Sprites/cubic/cubic.png" id="1_wdw13"]
 [ext_resource type="Script" uid="uid://dcm7sxema2bw5" path="res://Resources/Scripts/Player/Player.gd" id="2_l7y46"]
+[ext_resource type="Script" uid="uid://de0pf52brxmoj" path="res://Resources/Scripts/Player/camera.gd" id="4_l7y46"]
 [ext_resource type="Script" uid="uid://cw82cr8k5myb8" path="res://Resources/Scripts/core/hyprcube.gd" id="4_vxpuc"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_xyahh"]
@@ -279,10 +280,13 @@ shape = SubResource("BoxShape3D_h0bxe")
 [node name="Hyprcube" type="Node" parent="."]
 script = ExtResource("4_vxpuc")
 
-[node name="Camera" type="Camera3D" parent="."]
+[node name="Camera" type="Camera3D" parent="." node_paths=PackedStringArray("thing")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2961738, 8.033447)
 projection = 1
 fov = 81.56249
 size = 8.0
+script = ExtResource("4_l7y46")
+thing = NodePath("../Level/Cubic")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Camera"]
+transform = Transform3D(0.49999997, -0.61237246, 0.61237246, -3.090862e-08, 0.7071068, 0.7071068, -0.8660254, -0.3535534, 0.35355335, 7, 4, -5)
