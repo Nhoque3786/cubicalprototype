@@ -17,18 +17,31 @@ func _ready() -> void:
 	if not scene:
 		print("Couldn't find main tree scene!")
 		return
-	player = scene.get_node_or_null("Player")
+
+	# Find player (Cubic) robustly
+	player = scene.get_node_or_null("Cubic")
 	if not player:
-		print("Couldn't find the player! is it loaded?")
-		return
-	camera = scene.get_node_or_null("Camera3D")
+		var found_player := scene.find_child("Cubic", true, false)
+		if found_player and found_player is CharacterBody3D:
+			player = found_player
+		else:
+			print("Couldn't find cubic! proceeding without explicit player reference. Check if Cubic is loaded on the map!")
+
+	# Find camera: prefer Cubic/Camera, then any Camera node in tree
+	camera = scene.get_node_or_null("Cubic/Camera") as Camera3D
 	if not camera:
-		print("Couldn't find main scene camera!")
-		return
-	camera.make_current()
+		var found_cam := scene.find_child("Camera", true, false)
+		if found_cam and found_cam is Camera3D:
+			camera = found_cam
+	if camera:
+		camera.make_current()
+	else:
+		print("Couldn't find the camera! proceeding without making any camera current. Check if camera is loaded and inside cubic's node.")
+	# loads hyprcam's script
+
 
 # Input map. (probably move this to a settings.gd?)
-func _input(event: InputEvent) -> void:
+# func _input(event: InputEvent) -> void:
 	# TODO: Implement the controls here when movement and stuff are implemented
 	# IMPORTANT: utilize godot's keymap for controls!
 	pass

@@ -1,0 +1,288 @@
+[gd_scene load_steps=24 format=3 uid="uid://kmhowcpen55l"]
+
+[ext_resource type="Texture2D" uid="uid://ckpurs7554hni" path="res://Resources/Sprites/cubic/cubic.png" id="1_wdw13"]
+[ext_resource type="Script" uid="uid://dcm7sxema2bw5" path="res://Resources/Scripts/Player/Player.gd" id="2_l7y46"]
+[ext_resource type="Script" path="res://Resources/Scripts/core/hyprcube.gd" id="4_vxpuc"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_xyahh"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jyqcv"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wdw13"]
+
+[sub_resource type="Environment" id="Environment_gvvlp"]
+background_mode = 1
+background_color = Color(0.21960784, 0.7058824, 1, 1)
+ambient_light_source = 3
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 0.5
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rtoit"]
+atlas = ExtResource("1_wdw13")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jyqcv"]
+atlas = ExtResource("1_wdw13")
+region = Rect2(0, 112, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3iba2"]
+atlas = ExtResource("1_wdw13")
+region = Rect2(0, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2tepp"]
+atlas = ExtResource("1_wdw13")
+region = Rect2(16, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hlhob"]
+atlas = ExtResource("1_wdw13")
+region = Rect2(32, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b6fgh"]
+atlas = ExtResource("1_wdw13")
+region = Rect2(48, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1t1vp"]
+atlas = ExtResource("1_wdw13")
+region = Rect2(64, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yqwui"]
+atlas = ExtResource("1_wdw13")
+region = Rect2(80, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wdw13"]
+atlas = ExtResource("1_wdw13")
+region = Rect2(0, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l7y46"]
+atlas = ExtResource("1_wdw13")
+region = Rect2(16, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jt117"]
+atlas = ExtResource("1_wdw13")
+region = Rect2(32, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qp7fm"]
+atlas = ExtResource("1_wdw13")
+region = Rect2(48, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h0bxe"]
+atlas = ExtResource("1_wdw13")
+region = Rect2(64, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xyahh"]
+atlas = ExtResource("1_wdw13")
+region = Rect2(80, 64, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qp7fm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rtoit")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jyqcv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jyqcv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jyqcv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jyqcv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jyqcv")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3iba2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2tepp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hlhob")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b6fgh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1t1vp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yqwui")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wdw13")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l7y46")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jt117")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qp7fm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h0bxe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xyahh")
+}],
+"loop": true,
+"name": &"walk_blink",
+"speed": 5.0
+}]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_h0bxe"]
+size = Vector3(1, 0.89489746, 1)
+
+[node name="World" type="Node3D"]
+
+[node name="Level" type="Node3D" parent="."]
+
+[node name="Blocks" type="Node3D" parent="Level"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Blocks"]
+mesh = SubResource("BoxMesh_xyahh")
+surface_material_override/0 = SubResource("StandardMaterial3D_jyqcv")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Level/Blocks/MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Blocks/MeshInstance3D/StaticBody3D"]
+shape = SubResource("BoxShape3D_wdw13")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Blocks/MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+mesh = SubResource("BoxMesh_xyahh")
+surface_material_override/0 = SubResource("StandardMaterial3D_jyqcv")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D/StaticBody3D"]
+shape = SubResource("BoxShape3D_wdw13")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+mesh = SubResource("BoxMesh_xyahh")
+surface_material_override/0 = SubResource("StandardMaterial3D_jyqcv")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D/MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D/MeshInstance3D/StaticBody3D"]
+shape = SubResource("BoxShape3D_wdw13")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D/MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -1)
+mesh = SubResource("BoxMesh_xyahh")
+surface_material_override/0 = SubResource("StandardMaterial3D_jyqcv")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D/MeshInstance3D/MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D/MeshInstance3D/MeshInstance3D/StaticBody3D"]
+shape = SubResource("BoxShape3D_wdw13")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D/MeshInstance3D/MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+mesh = SubResource("BoxMesh_xyahh")
+surface_material_override/0 = SubResource("StandardMaterial3D_jyqcv")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D/MeshInstance3D/MeshInstance3D/MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D/MeshInstance3D/MeshInstance3D/MeshInstance3D/StaticBody3D"]
+shape = SubResource("BoxShape3D_wdw13")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Level/Blocks/MeshInstance3D"]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -4, 0, -5)
+mesh = SubResource("BoxMesh_xyahh")
+surface_material_override/0 = SubResource("StandardMaterial3D_jyqcv")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/StaticBody3D"]
+shape = SubResource("BoxShape3D_wdw13")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+mesh = SubResource("BoxMesh_xyahh")
+surface_material_override/0 = SubResource("StandardMaterial3D_jyqcv")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D/StaticBody3D"]
+shape = SubResource("BoxShape3D_wdw13")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+mesh = SubResource("BoxMesh_xyahh")
+surface_material_override/0 = SubResource("StandardMaterial3D_jyqcv")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D/MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D/MeshInstance3D/StaticBody3D"]
+shape = SubResource("BoxShape3D_wdw13")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D/MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -1)
+mesh = SubResource("BoxMesh_xyahh")
+surface_material_override/0 = SubResource("StandardMaterial3D_jyqcv")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D/MeshInstance3D/MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D/MeshInstance3D/MeshInstance3D/StaticBody3D"]
+shape = SubResource("BoxShape3D_wdw13")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D/MeshInstance3D/MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+mesh = SubResource("BoxMesh_xyahh")
+surface_material_override/0 = SubResource("StandardMaterial3D_jyqcv")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D/MeshInstance3D/MeshInstance3D/MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D/MeshInstance3D/MeshInstance3D/MeshInstance3D/StaticBody3D"]
+shape = SubResource("BoxShape3D_wdw13")
+
+[node name="Enviroment" type="WorldEnvironment" parent="Level"]
+environment = SubResource("Environment_gvvlp")
+
+[node name="Cubic" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2961738, 0)
+script = ExtResource("2_l7y46")
+
+[node name="Sprite" type="AnimatedSprite3D" parent="Cubic"]
+pixel_size = 0.1
+billboard = 1
+texture_filter = 0
+sprite_frames = SubResource("SpriteFrames_qp7fm")
+speed_scale = 1.5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Cubic"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.34849, 0)
+shape = SubResource("BoxShape3D_h0bxe")
+
+[node name="Camera" type="Camera3D" parent="Cubic"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8.033447)
+projection = 1
+fov = 81.56249
+size = 8.0
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Cubic/Camera"]
+
+[node name="Hyprcube" type="Node" parent="."]
+script = ExtResource("4_vxpuc")

@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dew0v45yw7mxp"
-path.s3tc="res://.godot/imported/cubic placeholder.png-3d3d292ce49693e85cab02687c358e34.s3tc.ctex"
+uid="uid://ckpurs7554hni"
+path.s3tc="res://.godot/imported/cubic.png-60fa798b660160977d86d4ca238dda66.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Resources/Sprites/cubic placeholder.png"
-dest_files=["res://.godot/imported/cubic placeholder.png-3d3d292ce49693e85cab02687c358e34.s3tc.ctex"]
+source_file="res://Resources/Sprites/cubic/cubic.png"
+dest_files=["res://.godot/imported/cubic.png-60fa798b660160977d86d4ca238dda66.s3tc.ctex"]
 
 [params]
 

@@ -22,7 +22,19 @@
 - [ ] Add Bits and Bytes (colectables) for testing
 - [ ] Add Climbables
 
+## Camera/World Rotation (FEZ-like)
+- [x] Prototype: rotate world around player using hyprcam.gd (Q/E)
+- [ ] Refactor hyprcam: pivot modes (MAP_CENTER/PLAYER/CUSTOM)
+- [ ] Add snap rotation (e.g., 90°) with tween and input lock during animation
+- [ ] Add camera_reset action to realign to 0° or nearest step
+- [ ] Allow excluding nodes from rotation (e.g., WorldEnvironment/UI3D)
+- [ ] Gamepad right stick integration (analog rotation with deadzone/sensitivity)
+
+## Level workflow
+- [ ] Create map template scene: Resources/Levels/Templates/MapTemplate.tscn (Level/Tiles/Props/Interactables/Colliders/Environment)
+- [ ] Simple MapLoader.gd to swap maps at runtime, preserving player
+- [ ] Convention check: keep Level (map root) and Cubic (player) names consistent or make autoload configurable
+
 ## Engine
 - [ ] Find a way to make .xm .it .mod files work as dynamic music inside it as nodes
-- [ ] Make an "Block" (or tilemap) Editor for the maps using or making a new program that does that
-- 
+- [ ] Make a "Block" (or tilemap) Editor for the maps using or making a new program that does that
