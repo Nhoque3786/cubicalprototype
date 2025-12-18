@@ -269,56 +269,6 @@ surface_material_override/0 = SubResource("StandardMaterial3D_jyqcv")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D/MeshInstance3D/MeshInstance3D/MeshInstance3D/StaticBody3D"]
 shape = SubResource("BoxShape3D_wdw13")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2"]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 7.9999995, 0, 1.0000005)
-mesh = SubResource("BoxMesh_xyahh")
-surface_material_override/0 = SubResource("StandardMaterial3D_jyqcv")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D2"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D2/StaticBody3D"]
-shape = SubResource("BoxShape3D_wdw13")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
-mesh = SubResource("BoxMesh_xyahh")
-surface_material_override/0 = SubResource("StandardMaterial3D_jyqcv")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D2/MeshInstance3D"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D2/MeshInstance3D/StaticBody3D"]
-shape = SubResource("BoxShape3D_wdw13")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D2/MeshInstance3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
-mesh = SubResource("BoxMesh_xyahh")
-surface_material_override/0 = SubResource("StandardMaterial3D_jyqcv")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D2/MeshInstance3D/MeshInstance3D"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D2/MeshInstance3D/MeshInstance3D/StaticBody3D"]
-shape = SubResource("BoxShape3D_wdw13")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D2/MeshInstance3D/MeshInstance3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -1)
-mesh = SubResource("BoxMesh_xyahh")
-surface_material_override/0 = SubResource("StandardMaterial3D_jyqcv")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D2/MeshInstance3D/MeshInstance3D/MeshInstance3D"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D2/MeshInstance3D/MeshInstance3D/MeshInstance3D/StaticBody3D"]
-shape = SubResource("BoxShape3D_wdw13")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D2/MeshInstance3D/MeshInstance3D/MeshInstance3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
-mesh = SubResource("BoxMesh_xyahh")
-surface_material_override/0 = SubResource("StandardMaterial3D_jyqcv")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D2/MeshInstance3D/MeshInstance3D/MeshInstance3D/MeshInstance3D"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D2/MeshInstance3D/MeshInstance3D/MeshInstance3D/MeshInstance3D/StaticBody3D"]
-shape = SubResource("BoxShape3D_wdw13")
-
 [node name="Cubic" type="CharacterBody3D" parent="Level"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2961738, 0)
 script = ExtResource("2_l7y46")
