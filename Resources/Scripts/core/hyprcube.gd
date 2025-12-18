@@ -13,6 +13,7 @@ var target_rotation_y_deg: float = 0.0
 
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	# If world_node is not set in the editor, try to find it automatically.
 	# This assumes this script is a child of "World" and the level node is named "Level".
 	if world_node == null:
@@ -42,8 +43,9 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func rotate_world() -> void:
 	is_rotating = true
-
-	var tween = create_tween()
+	# pause the game while rotating
+	get_tree().paused = true
+	var tween: Tween = create_tween()
 	# Use a smooth transition curve.
 	tween.set_trans(Tween.TRANS_CUBIC)
 	tween.set_ease(Tween.EASE_IN_OUT)
@@ -54,12 +56,13 @@ func rotate_world() -> void:
 	# Wait for the animation to finish.
 	await tween.finished
 	is_rotating = false
+	get_tree().paused = false
 
 
 # This public function will be called by the player to know which way is "right".
 func get_horizontal_direction() -> Vector3:
 	# Create a vector pointing right (1, 0, 0) and rotate it by the current world rotation.
-	var angle_rad = deg_to_rad(target_rotation_y_deg)
+	var angle_rad: float = deg_to_rad(target_rotation_y_deg)
 	return Vector3.RIGHT.rotated(Vector3.UP, angle_rad)
 
 
