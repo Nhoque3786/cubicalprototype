@@ -5,20 +5,27 @@ extends CharacterBody3D
 # Player parameters
 @export var speed: float = 6.0
 @export var jump_power: float = 8.0
-@export var gravity: float = 24.0
-@export var climbing: bool = false
+@export var gravity: float = 24.0 #TODO: make gravity custom to every level using script inside level node
+@export var climbing: bool = false #TODO: implement climbing
 @export var grabbing: bool = false
 
 # Animation
+# TODO: apply squish & strethes animations for jumping/falling
 @onready var animated_sprite: AnimatedSprite3D = $Sprite
 
 # Node references
-@onready var hyprcube: Node = get_node_or_null("../Hyprcube")
+var hyprcube: Node
+var hyprground: Node
 
 # Animation speed controls
 @export var anim_default_speed: float = 1.0
 @export var anim_walk_speed: float = 1.0
 @export var anim_jump_speed: float = 0.6
+
+func _ready() -> void:
+	# Get node references from the global Game autoload
+	hyprcube = Game.hyprcube
+	hyprground = Game.hyprground
 
 func _physics_process(delta: float) -> void:
 	var input_h := Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
@@ -41,16 +48,10 @@ func _physics_process(delta: float) -> void:
 		# Apply gravity while in the air (Note: make gravity custom to every level later)
 		velocity.y -= gravity * delta
 
-	# Get the current movement direction from Hyprcube and apply horizontal movement
-	if hyprcube:
-		var horizontal_direction: Vector3 = hyprcube.get_horizontal_direction()
-		var target_velocity: Vector3 = horizontal_direction * input_h * speed
-		velocity.x = target_velocity.x
-		velocity.z = target_velocity.z
-	else:
-		# Fallback to old behavior if hyprcube is not found
-		velocity.x = input_h * speed
-		velocity.z = 0
+	# Movement is ALWAYS on Global X (Screen Horizontal)
+	# The world rotates under the player, aligning the path to X.
+	velocity.x = input_h * speed
+	velocity.z = 0
 
 	# Update animations and sprite direction
 	update_animation()
@@ -58,6 +59,9 @@ func _physics_process(delta: float) -> void:
 
 	# Apply movement with collision detection
 	move_and_slide()
+
+	if hyprground:
+		hyprground.snap(self, hyprground.max_distance)
 
 func update_animation() -> void:
 	# Handles which animation to play. The order of checks is important.
@@ -80,9 +84,9 @@ func update_animation() -> void:
 		return
 
 	# 4. On Floor: If not jumping, run the default walk/idle logic.
+	#TODO: add fall death if the fall is too high or infinite. (Then respawn on the latest safe location)
 	# We check the length of the horizontal velocity vector to detect movement.
-	var horizontal_velocity = Vector2(velocity.x, velocity.z)
-	if horizontal_velocity.length() > 0.1:
+	if abs(velocity.x) > 0.1:
 		animated_sprite.speed_scale = anim_walk_speed
 		animated_sprite.play("walk")
 	else:
