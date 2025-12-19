@@ -2,8 +2,4 @@
 .godot/
 /android/
 .vscode/
-
-
-
-#Ignore vscode AI rules
-.github/instructions/codacy.instructions.md
+.idea/
