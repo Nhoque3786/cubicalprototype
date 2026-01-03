@@ -39,8 +39,8 @@ func snap(body: CharacterBody3D, distance: float) -> void:
 			closest_hit = hit
 
 	# then teleports ONLY on Z axis
-	# align the player to the face of the block + 0.5 offset (assuming 1x1 grid logic) #TODO: make the align to be in the center of the block if possible
-	var target_z = closest_hit.position.z + (closest_hit.normal.z * 0.05)
+	# align the player to the center of the block (assuming 1x1 grid logic)
+	var target_z = closest_hit.position.z - (closest_hit.normal.z * 0.5)
 
 	# Apply the Z change
 	body.global_position.z = target_z
