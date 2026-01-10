@@ -1,46 +1,51 @@
-## Makes 2D colision possible on 3D enviroment
-## In a nutshell, it "teleports" the target to the closest ground on Z axis utilizing raycasts.
+## Snapping system for the Z-axis.
+## Since the world rotates, the player needs to be centered on the 1-unit blocks
+## to ensure consistent movement along the X-axis.
 extends Node
 
-@export var max_distance: float = 128
+@export var max_distance: float = 128.0
+@export_flags_3d_physics var collision_mask: int = 1
+@export var vertical_offsets: Array[float] = [0.0, -0.9]
+
 
 func snap(body: CharacterBody3D, distance: float) -> void:
-	var space_state: PhysicsDirectSpaceState3D = body.get_world_3d().direct_space_state
-	var origin: Vector3 = body.global_position
-
-	var results: Array[Variant] = []
-
-	# Check from center and slightly below (feet level) to catch platforms when falling
-	var vertical_offsets: Array[Variant] = [0.0, -0.9]
-
-	for v_offset in vertical_offsets:
-		var start_point: Vector3 = origin + Vector3(0, v_offset, 0)
-
-		for dir in [1, -1]:
-			var target: Vector3 = start_point + Vector3(0, 0, dir * distance)
-			var query: PhysicsRayQueryParameters3D = PhysicsRayQueryParameters3D.create(start_point, target)
-			query.exclude = [body.get_rid()]
-			var hit: Dictionary = space_state.intersect_ray(query)
-			if hit:
-				results.append(hit)
-
-	# if nothing found, cancels to not frick things up
-	if results.size() == 0:
+	if body == null or not body.is_inside_tree():
 		return
 
-	# chooses the closest hit based on Z distance only
-	var closest_hit = results[0]
-	var min_z_dist = abs(origin.z - closest_hit.position.z)
+	var space_state: PhysicsDirectSpaceState3D = body.get_world_3d().direct_space_state
+	var origin: Vector3 = body.global_position
+	var results: Array[Dictionary] = []
 
-	for hit in results:
-		var z_dist = abs(origin.z - hit.position.z)
+	for v_offset in vertical_offsets:
+		var start_point: Vector3 = origin
+		start_point.y += v_offset
+
+		for dir in [1.0, -1.0]:
+			var target: Vector3 = start_point
+			target.z += dir * distance
+			
+			var query: PhysicsRayQueryParameters3D = PhysicsRayQueryParameters3D.create(start_point, target, collision_mask)
+			query.exclude = [body.get_rid()]
+			
+			var hit: Dictionary = space_state.intersect_ray(query)
+			if not hit.is_empty():
+				results.append(hit)
+
+	if results.is_empty():
+		return
+
+	var closest_hit: Dictionary = results[0]
+	var min_z_dist: float = abs(origin.z - closest_hit["position"].z)
+
+	for i in range(1, results.size()):
+		var hit: Dictionary = results[i]
+		var z_dist: float = abs(origin.z - hit["position"].z)
 		if z_dist < min_z_dist:
 			min_z_dist = z_dist
 			closest_hit = hit
 
-	# then teleports ONLY on Z axis
-	# align the player to the center of the block (assuming 1x1 grid logic)
-	var target_z = closest_hit.position.z - (closest_hit.normal.z * 0.5)
-
-	# Apply the Z change
+	# Teleport ONLY on the Z axis, centering on the block.
+	# We use the normal of the collision to know which side of the block we hit.
+	# Since blocks are 1 unit wide, the center is 0.5 units away from the surface.
+	var target_z: float = closest_hit["position"].z - (closest_hit["normal"].z * 0.5)
 	body.global_position.z = target_z
