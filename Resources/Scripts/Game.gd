@@ -41,9 +41,4 @@ func _ready() -> void:
 	if not hyprground:
 		print("Couldn't find Hyprground node in the scene!")
 
-
-# Input map. (probably move this to a settings.gd?)
-# func _input(event: InputEvent) -> void:
-	# TODO: Implement the controls here when movement and stuff are implemented
-	# IMPORTANT: utilize godot's keymap for controls!
 	pass
