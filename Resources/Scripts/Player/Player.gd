@@ -3,97 +3,86 @@
 extends CharacterBody3D
 
 # Player parameters
+enum State { IDLE, MOVING, AIR, ROTATING, CLIMBING, GRABBING }
+
+# Player parameters
+@export_group("Movement")
 @export var speed: float = 6.0
+@export var acceleration: float = 60.0
+@export var friction: float = 50.0
 @export var jump_power: float = 8.0
-@export var gravity: float = 24.0 #TODO: make gravity custom to every level using script inside level node
-@export var climbing: bool = false #TODO: implement climbing
-@export var grabbing: bool = false
+@export var gravity: float = 24.0
 
-# Animation
-# TODO: apply squish & strethes animations for jumping/falling
-@onready var animated_sprite: AnimatedSprite3D = $Sprite
+var current_state: State = State.IDLE
 
-# Node references
-var hyprcube: Node
-var hyprground: Node
-
-# Animation speed controls
-@export var anim_default_speed: float = 1.0
-@export var anim_walk_speed: float = 1.0
-@export var anim_jump_speed: float = 0.6
-
-func _ready() -> void:
-	# Get node references from the global Game autoload
-	hyprcube = Game.hyprcube
-	hyprground = Game.hyprground
+# Components
+@onready var animator: Node = $PlayerAnimator
 
 func _physics_process(delta: float) -> void:
-	var input_h := Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
+	# 1. Update References & State
+	var hyprcube: Node = Game.hyprcube
+	var ground: Node = Game.hyprground
+	
+	_update_state(hyprcube)
 
-	# If the world is rotating, freeze all horizontal movement.
+	# 2. Handle Movement Logic
+	var input_h := Input.get_axis("move_left", "move_right")
+	var did_jump := false
+
+	match current_state:
+		State.ROTATING:
+			_apply_friction(delta)
+		State.AIR:
+			_handle_horizontal_movement(input_h, delta)
+			_apply_gravity(delta)
+		State.CLIMBING:
+			# TODO: Implement climbing logic
+			pass
+		_: # Ground states (IDLE, MOVING)
+			_handle_horizontal_movement(input_h, delta)
+			_apply_gravity(delta) # Mantain a little bit of force still
+			if Input.is_action_just_pressed("jump"):
+				_handle_jump()
+				did_jump = true
+
+	# 3. Physics Execution
+	move_and_slide()
+	
+	# 4. Post-movement adjustments
+	if ground:
+		ground.snap(self, ground.max_distance)
+
+	# 5. Visuals
+	if animator and animator.has_method("update_animation"):
+		animator.update_animation(velocity, is_on_floor(), input_h, did_jump)
+
+func _update_state(hyprcube: Node) -> void:
 	if hyprcube and hyprcube.is_world_rotating():
-		input_h = 0
-		velocity.x = 0
-		velocity.z = 0
-
-	# Handle jump
-	if is_on_floor():
-		# Reset the vertical component when touching the floor
-		if Input.is_action_just_pressed("jump"):
-			velocity.y = jump_power
-		else:
-			# Ensure a small negative vertical velocity doesn't accumulate on landing
-			velocity.y = 0.0
+		current_state = State.ROTATING
+		return
+		
+	if not is_on_floor():
+		current_state = State.AIR
+	elif velocity.x != 0:
+		current_state = State.MOVING
 	else:
-		# Apply gravity while in the air (Note: make gravity custom to every level later)
-		velocity.y -= gravity * delta
+		current_state = State.IDLE
 
-	# Movement is ALWAYS on Global X (Screen Horizontal)
-	# The world rotates under the player, aligning the path to X.
-	velocity.x = input_h * speed
+func _handle_horizontal_movement(input_h: float, delta: float) -> void:
+	if input_h != 0:
+		velocity.x = move_toward(velocity.x, input_h * speed, acceleration * delta)
+	else:
+		_apply_friction(delta)
+	
+	# makes sure we don't start drifting into the Z axis suddenly.
 	velocity.z = 0
 
-	# Update animations and sprite direction
-	update_animation()
-	update_direction(input_h)
+func _apply_friction(delta: float) -> void:
+	velocity.x = move_toward(velocity.x, 0, friction * delta)
+	velocity.z = 0
 
-	# Apply movement with collision detection
-	move_and_slide()
+func _apply_gravity(delta: float) -> void:
+	velocity.y -= gravity * delta
 
-	if hyprground:
-		hyprground.snap(self, hyprground.max_distance)
-
-func update_animation() -> void:
-	# Handles which animation to play. The order of checks is important.
-
-	# 1. In the air: overrides all other animations for a default pose.
-	if not is_on_floor():
-		animated_sprite.play("default") # Play the 'default' anim
-		animated_sprite.stop()          # and stop it immediately to show the default frame.
-		return
-
-	# 2. On Floor: Let the one-shot jump animation finish if it's playing.
-	if animated_sprite.animation == "jump" and animated_sprite.is_playing():
-		return
-
-	# 3. On Floor: Check for new jump input.
-	if Input.is_action_just_pressed("jump"):
-		# Slow down the jump animation specifically
-		animated_sprite.speed_scale = anim_jump_speed
-		animated_sprite.play("jump")
-		return
-
-	# 4. On Floor: If not jumping, run the default walk/idle logic.
-	#TODO: add fall death if the fall is too high or infinite. (Then respawn on the latest safe location)
-	# We check the length of the horizontal velocity vector to detect movement.
-	if abs(velocity.x) > 0.1:
-		animated_sprite.speed_scale = anim_walk_speed
-		animated_sprite.play("walk")
-	else:
-		animated_sprite.speed_scale = anim_default_speed
-		animated_sprite.play("default")
-
-func update_direction(input_h: float) -> void:
-	# Flips the sprite based on horizontal input
-	if input_h != 0:
-		animated_sprite.flip_h = input_h < 0 
+func _handle_jump() -> void:
+	velocity.y = jump_power
