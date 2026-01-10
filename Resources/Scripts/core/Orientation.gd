@@ -1,0 +1,15 @@
+# Orientation controls. Only for some technical shit. Perhaps weird camera effects
+class_name Orientation
+# TODO: Make this work with rotating the map instead. lol
+enum Facing { South, West, North, East }
+
+var facing: Facing = Facing.South
+
+func get_facing(angle) -> Facing:
+	# Normalizing the angle between 0 and 2*PI
+	var normalized_angle: float = fposmod(angle, TAU)
+	# Converts to facing direction (each spans PI/2 radians)
+	# 0 rad (0º) = south, PI/2 (90º) = west, PI (180º) = north, 3*PI/2 (270º) = east
+	var facing_index: int = int(round(normalized_angle / (PI / 2))) % 4
+	return facing_index as Facing
+
