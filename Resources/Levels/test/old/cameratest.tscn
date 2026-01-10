@@ -1,6 +1,5 @@
-[gd_scene load_steps=4 format=3 uid="uid://t5fv3wlcbbfp"]
+[gd_scene load_steps=3 format=3 uid="uid://t5fv3wlcbbfp"]
 
-[ext_resource type="PackedScene" uid="uid://bjl7p8v1he7ov" path="res://Resources/Stuff/Isometricam.tscn" id="1_rpq38"]
 [ext_resource type="PackedScene" uid="uid://kab0vgbwg3xm" path="res://Resources/Blocks/Grass.gltf" id="2_ac2rv"]
 
 [sub_resource type="Environment" id="Environment_nqyfq"]
@@ -14,9 +13,6 @@ reflected_light_source = 2
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_nqyfq")
-
-[node name="Camera3D" parent="." instance=ExtResource("1_rpq38")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 5.8117)
 
 [node name="Blocks" type="Node3D" parent="."]
 
