@@ -13,10 +13,26 @@ enum State { IDLE, MOVING, AIR, ROTATING, CLIMBING, GRABBING }
 @export var jump_power: float = 8.0
 @export var gravity: float = 24.0
 
+@export_group("Visuals")
+@export var animated_sprite: AnimatedSprite3D
+
 var current_state: State = State.IDLE
 
 # Components
-@onready var animator: Node = $PlayerAnimator
+var animator: PlayerAnimator
+
+func _ready() -> void:
+	if not animated_sprite:
+		for child in get_children():
+			if child is AnimatedSprite3D:
+				animated_sprite = child
+				break
+
+	if animated_sprite:
+		animator = PlayerAnimator.new()
+		animator.animated_sprite = animated_sprite
+	else:
+		push_error("OOPS, Player.gd didint found any AnimatedSprite3D to initialize the Animator.")
 
 func _physics_process(delta: float) -> void:
 	# 1. Update References & State
@@ -53,7 +69,7 @@ func _physics_process(delta: float) -> void:
 		ground.snap(self, ground.max_distance)
 
 	# 5. Visuals
-	if animator and animator.has_method("update_animation"):
+	if animator:
 		animator.update_animation(velocity, is_on_floor(), input_h, did_jump)
 
 func _update_state(hyprcube: Node) -> void:
