@@ -18,7 +18,7 @@ func update_animation(velocity: Vector3, is_on_floor: bool, input_h: float, did_
 	if not is_on_floor:
 		animated_sprite.play("default") # Play the 'default' anim
 		animated_sprite.stop()          # and stop it immediately to show the default frame.
-		# TODO: Add squash & stretch logic for falling
+		# TODO: Add squash & stretch logic for falling (The implementation for default pose only is just for testing.)
 		return
 
 	# 2. On Floor: Let the one-shot jump animation finish if it's playing.
