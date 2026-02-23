@@ -12,6 +12,7 @@ enum State { IDLE, MOVING, AIR, ROTATING, CLIMBING, GRABBING }
 @export var friction: float = 50.0
 @export var jump_power: float = 8.0
 @export var gravity: float = 24.0
+@export var jump_delay: float = 0.1
 
 @export_group("Visuals")
 @export var animated_sprite: AnimatedSprite3D
@@ -20,6 +21,8 @@ var current_state: State = State.IDLE
 
 # Components
 var animator: PlayerAnimator
+var jump_timer: float = 0.0
+var is_preparing_jump: bool = false
 
 func _ready() -> void:
 	if not animated_sprite:
@@ -31,6 +34,7 @@ func _ready() -> void:
 	if animated_sprite:
 		animator = PlayerAnimator.new()
 		animator.animated_sprite = animated_sprite
+		add_child(animator)
 	else:
 		push_error("OOPS, Player.gd didint found any AnimatedSprite3D to initialize the Animator.")
 
@@ -42,7 +46,7 @@ func _physics_process(delta: float) -> void:
 	_update_state(hyprcube)
 
 	# 2. Handle Movement Logic
-	var input_h := Input.get_axis("move_left", "move_right")
+	var input_h := Input.get_axis(&"move_left", &"move_right")
 	var did_jump := false
 
 	match current_state:
@@ -57,9 +61,18 @@ func _physics_process(delta: float) -> void:
 		_: # Ground states (IDLE, MOVING)
 			_handle_horizontal_movement(input_h, delta)
 			_apply_gravity(delta) # Mantain a little bit of force still
-			if Input.is_action_just_pressed("jump"):
-				_handle_jump()
+			
+			if is_preparing_jump:
+				jump_timer -= delta
+				if jump_timer <= 0:
+					_handle_jump()
+					# we don't set did_jump here because the visual "squish" 
+					# already started at the beginning of preparation
+					is_preparing_jump = false
+			elif Input.is_action_just_pressed(&"jump"):
+				_start_jump_preparation()
 				did_jump = true
+				# TODO: add coyote time, for less anxiety inducing jumps
 
 	# 3. Physics Execution
 	move_and_slide()
@@ -70,7 +83,7 @@ func _physics_process(delta: float) -> void:
 
 	# 5. Visuals
 	if animator:
-		animator.update_animation(velocity, is_on_floor(), input_h, did_jump)
+		animator.update_animation(velocity, is_on_floor(), input_h, did_jump, delta)
 
 func _update_state(hyprcube: Node) -> void:
 	if hyprcube and hyprcube.is_world_rotating():
@@ -91,14 +104,18 @@ func _handle_horizontal_movement(input_h: float, delta: float) -> void:
 		_apply_friction(delta)
 	
 	# makes sure we don't start drifting into the Z axis suddenly.
-	velocity.z = 0
+	velocity.z = 0.0
 
 func _apply_friction(delta: float) -> void:
-	velocity.x = move_toward(velocity.x, 0, friction * delta)
-	velocity.z = 0
+	velocity.x = move_toward(velocity.x, 0.0, friction * delta)
+	velocity.z = 0.0
 
 func _apply_gravity(delta: float) -> void:
 	velocity.y -= gravity * delta
 
 func _handle_jump() -> void:
 	velocity.y = jump_power
+
+func _start_jump_preparation() -> void:
+	is_preparing_jump = true
+	jump_timer = jump_delay

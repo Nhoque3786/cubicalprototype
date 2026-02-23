@@ -7,34 +7,53 @@ class_name PlayerAnimator
 # Animation speed controls
 @export var anim_default_speed: float = 1.0
 @export var anim_walk_speed: float = 1.0
-@export var anim_jump_speed: float = 0.6
+@export var anim_squish_speed: float = 0.8
+@export var anim_stretch_speed: float = 0.5
 
-func update_animation(velocity: Vector3, is_on_floor: bool, input_h: float, did_jump: bool) -> void:
+func _ready() -> void:
+	animated_sprite.animation_finished.connect(_on_animation_finished)
+
+func _on_animation_finished() -> void:
+	if animated_sprite.animation == "squish":
+		# Stretch is not good yet for jumping, probably i will only use stretch for falling. TODO: make this more natural
+		# animated_sprite.speed_scale = anim_stretch_speed
+		# animated_sprite.play("stretch")
+		pass
+
+
+func update_animation(velocity: Vector3, is_on_floor: bool, input_h: float, did_jump: bool, _delta: float) -> void:
+	# Jump 
+	if did_jump:
+		animated_sprite.speed_scale = anim_squish_speed
+		animated_sprite.play("squish")
+		return
+
+	# If we are in the middle of a jump animation (squish/stretch), let it finish
+	# Removido "stretch" da verificação abaixo para liberar a troca de animação mais cedo
+	if (animated_sprite.animation == "squish") and animated_sprite.is_playing():
+		return
+
 	# Update direction (Flip H)
 	if input_h != 0:
-		animated_sprite.flip_h = input_h < 0
+		var new_flip_h = input_h < 0
+		if animated_sprite.flip_h != new_flip_h:
+			animated_sprite.flip_h = new_flip_h
+			# Only play turn animation if we are on floor
+			if is_on_floor:
+				animated_sprite.play("turn")
+	if animated_sprite.animation == "turn" and animated_sprite.is_playing():
+		return
 
-	# 1. In the air: overrides all other animations for a default pose.
+	# falling
+	# NOTE: This is just for testing purposes. In Later versions, i'm using the stretch anim for falling.
+	# TODO: add the stretch anim for falling
 	if not is_on_floor:
 		animated_sprite.play("default") # Play the 'default' anim
 		animated_sprite.stop()          # and stop it immediately to show the default frame.
 		# TODO: Add squash & stretch logic for falling (The implementation for default pose only is just for testing.)
 		return
 
-	# 2. On Floor: Let the one-shot jump animation finish if it's playing.
-	if animated_sprite.animation == "jump" and animated_sprite.is_playing():
-		return
-
-	# 3. On Floor: Check for new jump input.
-	if did_jump:
-		# Slow down the jump animation specifically
-		animated_sprite.speed_scale = anim_jump_speed
-		animated_sprite.play("jump")
-		# TODO: Add squash & stretch logic for jumping
-		return
-
-	# 4. On Floor: If not jumping, run the default walk/idle logic.
-	# We check the length of the horizontal velocity vector to detect movement.
+	# Walk & Idle
 	if abs(velocity.x) > 0.1:
 		animated_sprite.speed_scale = anim_walk_speed
 		animated_sprite.play("walk")

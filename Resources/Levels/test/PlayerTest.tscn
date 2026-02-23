@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://kmhowcpen55l"]
+[gd_scene format=3 uid="uid://kmhowcpen55l"]
 
 [ext_resource type="Texture2D" uid="uid://ckpurs7554hni" path="res://Resources/Sprites/cubic/cubic.png" id="1_wdw13"]
 [ext_resource type="Script" uid="uid://bhyn4scqwsjig" path="res://Resources/Scripts/core/hyprground.gd" id="2_jt117"]
@@ -25,7 +25,19 @@ region = Rect2(0, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jyqcv"]
 atlas = ExtResource("1_wdw13")
-region = Rect2(0, 112, 16, 16)
+region = Rect2(0, 160, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2itv7"]
+atlas = ExtResource("1_wdw13")
+region = Rect2(16, 160, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gvvlp"]
+atlas = ExtResource("1_wdw13")
+region = Rect2(0, 144, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gqe2p"]
+atlas = ExtResource("1_wdw13")
+region = Rect2(16, 96, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3iba2"]
 atlas = ExtResource("1_wdw13")
@@ -88,22 +100,39 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_jyqcv")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_jyqcv")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_jyqcv")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_jyqcv")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_jyqcv")
 }],
-"loop": true,
-"name": &"jump",
-"speed": 2.0
+"loop": false,
+"name": &"squish",
+"speed": 14.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2itv7")
+}],
+"loop": false,
+"name": &"squish_hard",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": false,
+"name": &"strech_hard",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gvvlp")
+}],
+"loop": false,
+"name": &"stretch",
+"speed": 25.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gqe2p")
+}],
+"loop": false,
+"name": &"turn",
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -126,7 +155,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"walk",
-"speed": 5.0
+"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -155,136 +184,137 @@ animations = [{
 [sub_resource type="BoxShape3D" id="BoxShape3D_h0bxe"]
 size = Vector3(1, 0.89489746, 1)
 
-[node name="World" type="Node3D"]
+[node name="World" type="Node3D" unique_id=1389414671]
 
-[node name="Hyprcube" type="Node" parent="."]
+[node name="Hyprcube" type="Node" parent="." unique_id=938806630]
 script = ExtResource("4_vxpuc")
 
-[node name="Hyprground" type="Node" parent="."]
+[node name="Hyprground" type="Node" parent="." unique_id=985631619]
 script = ExtResource("2_jt117")
 
-[node name="Level" type="Node3D" parent="."]
+[node name="Level" type="Node3D" parent="." unique_id=2040589304]
 
-[node name="Enviroment" type="WorldEnvironment" parent="Level"]
+[node name="Enviroment" type="WorldEnvironment" parent="Level" unique_id=779969619]
 environment = SubResource("Environment_gvvlp")
 
-[node name="Blocks" type="Node3D" parent="Level"]
+[node name="Blocks" type="Node3D" parent="Level" unique_id=995414338]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Blocks"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Blocks" unique_id=1211028728]
 mesh = SubResource("BoxMesh_xyahh")
 surface_material_override/0 = SubResource("StandardMaterial3D_jyqcv")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Level/Blocks/MeshInstance3D"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Level/Blocks/MeshInstance3D" unique_id=1763831811]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Blocks/MeshInstance3D/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Blocks/MeshInstance3D/StaticBody3D" unique_id=1915907606]
 shape = SubResource("BoxShape3D_wdw13")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Blocks/MeshInstance3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Blocks/MeshInstance3D" unique_id=1714798111]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
 mesh = SubResource("BoxMesh_xyahh")
 surface_material_override/0 = SubResource("StandardMaterial3D_jyqcv")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D" unique_id=2034717111]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D/StaticBody3D" unique_id=1605403704]
 shape = SubResource("BoxShape3D_wdw13")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D" unique_id=1278100421]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
 mesh = SubResource("BoxMesh_xyahh")
 surface_material_override/0 = SubResource("StandardMaterial3D_jyqcv")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D/MeshInstance3D"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D/MeshInstance3D" unique_id=1102657423]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D/MeshInstance3D/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D/MeshInstance3D/StaticBody3D" unique_id=66871470]
 shape = SubResource("BoxShape3D_wdw13")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D/MeshInstance3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D/MeshInstance3D" unique_id=1642261826]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -1)
 mesh = SubResource("BoxMesh_xyahh")
 surface_material_override/0 = SubResource("StandardMaterial3D_jyqcv")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D/MeshInstance3D/MeshInstance3D"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D/MeshInstance3D/MeshInstance3D" unique_id=144315317]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D/MeshInstance3D/MeshInstance3D/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D/MeshInstance3D/MeshInstance3D/StaticBody3D" unique_id=1839110655]
 shape = SubResource("BoxShape3D_wdw13")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D/MeshInstance3D/MeshInstance3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D/MeshInstance3D/MeshInstance3D" unique_id=1438092680]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
 mesh = SubResource("BoxMesh_xyahh")
 surface_material_override/0 = SubResource("StandardMaterial3D_jyqcv")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D/MeshInstance3D/MeshInstance3D/MeshInstance3D"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D/MeshInstance3D/MeshInstance3D/MeshInstance3D" unique_id=1993147582]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D/MeshInstance3D/MeshInstance3D/MeshInstance3D/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D/MeshInstance3D/MeshInstance3D/MeshInstance3D/StaticBody3D" unique_id=359055155]
 shape = SubResource("BoxShape3D_wdw13")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="Level/Blocks/MeshInstance3D"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Level/Blocks/MeshInstance3D" unique_id=1317228612]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -4, 0, -5)
 mesh = SubResource("BoxMesh_xyahh")
 surface_material_override/0 = SubResource("StandardMaterial3D_jyqcv")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2" unique_id=1343516918]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/StaticBody3D" unique_id=1282916247]
 shape = SubResource("BoxShape3D_wdw13")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2" unique_id=1681871965]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
 mesh = SubResource("BoxMesh_xyahh")
 surface_material_override/0 = SubResource("StandardMaterial3D_jyqcv")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D" unique_id=1700490269]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D/StaticBody3D" unique_id=1463458204]
 shape = SubResource("BoxShape3D_wdw13")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D" unique_id=2068895956]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
 mesh = SubResource("BoxMesh_xyahh")
 surface_material_override/0 = SubResource("StandardMaterial3D_jyqcv")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D/MeshInstance3D"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D/MeshInstance3D" unique_id=1172305069]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D/MeshInstance3D/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D/MeshInstance3D/StaticBody3D" unique_id=1258008729]
 shape = SubResource("BoxShape3D_wdw13")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D/MeshInstance3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D/MeshInstance3D" unique_id=2074516538]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -1)
 mesh = SubResource("BoxMesh_xyahh")
 surface_material_override/0 = SubResource("StandardMaterial3D_jyqcv")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D/MeshInstance3D/MeshInstance3D"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D/MeshInstance3D/MeshInstance3D" unique_id=1007537976]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D/MeshInstance3D/MeshInstance3D/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D/MeshInstance3D/MeshInstance3D/StaticBody3D" unique_id=467794498]
 shape = SubResource("BoxShape3D_wdw13")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D/MeshInstance3D/MeshInstance3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D/MeshInstance3D/MeshInstance3D" unique_id=647241037]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
 mesh = SubResource("BoxMesh_xyahh")
 surface_material_override/0 = SubResource("StandardMaterial3D_jyqcv")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D/MeshInstance3D/MeshInstance3D/MeshInstance3D"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D/MeshInstance3D/MeshInstance3D/MeshInstance3D" unique_id=1218453893]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D/MeshInstance3D/MeshInstance3D/MeshInstance3D/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Blocks/MeshInstance3D/MeshInstance3D2/MeshInstance3D/MeshInstance3D/MeshInstance3D/MeshInstance3D/StaticBody3D" unique_id=1408864147]
 shape = SubResource("BoxShape3D_wdw13")
 
-[node name="Cubic" type="CharacterBody3D" parent="Level"]
+[node name="Cubic" type="CharacterBody3D" parent="Level" unique_id=202597470]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2961738, 0)
 script = ExtResource("2_l7y46")
 
-[node name="Sprite" type="AnimatedSprite3D" parent="Level/Cubic"]
+[node name="Sprite" type="AnimatedSprite3D" parent="Level/Cubic" unique_id=1998904032]
 pixel_size = 0.1
 billboard = 1
 texture_filter = 0
 sprite_frames = SubResource("SpriteFrames_qp7fm")
+animation = &"squish"
 speed_scale = 1.5
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Cubic"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Cubic" unique_id=739313231]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.34849, 0)
 shape = SubResource("BoxShape3D_h0bxe")
 
-[node name="Camera" type="Camera3D" parent="." node_paths=PackedStringArray("target")]
+[node name="Camera" type="Camera3D" parent="." unique_id=1259157509 node_paths=PackedStringArray("target")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2961738, 8.033447)
 projection = 1
 fov = 81.56249
@@ -293,5 +323,5 @@ script = ExtResource("4_l7y46")
 target = NodePath("../Level/Cubic")
 radius = 8.0
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Camera"]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Camera" unique_id=1621258435]
 transform = Transform3D(0.49999997, -0.61237246, 0.61237246, -3.090862e-08, 0.7071068, 0.7071068, -0.8660254, -0.3535534, 0.35355335, 7, 4, -5)
