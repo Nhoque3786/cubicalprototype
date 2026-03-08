@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://t5fv3wlcbbfp"]
 
-[ext_resource type="PackedScene" uid="uid://kab0vgbwg3xm" path="res://Resources/Blocks/Grass.gltf" id="2_ac2rv"]
+[ext_resource type="PackedScene" uid="uid://kab0vgbwg3xm" path="res://Blocks/Grass.gltf" id="2_ac2rv"]
 
 [sub_resource type="Environment" id="Environment_nqyfq"]
 background_mode = 1

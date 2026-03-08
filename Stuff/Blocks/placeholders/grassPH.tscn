@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://csumjpsbcu3tq"]
 
-[ext_resource type="PackedScene" uid="uid://kab0vgbwg3xm" path="res://Resources/Blocks/Grass.gltf" id="1_i7374"]
+[ext_resource type="PackedScene" uid="uid://kab0vgbwg3xm" path="res://Blocks/Grass.gltf" id="1_i7374"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_2ovpq"]
 
