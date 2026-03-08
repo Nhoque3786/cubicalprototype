@@ -24,7 +24,7 @@ config/icon="uid://cr8rgjvu02y0y"
 
 [autoload]
 
-Game="*res://Resources/Scripts/Game.gd"
+Game="*res://Scripts/Game.gd"
 
 [input]
 

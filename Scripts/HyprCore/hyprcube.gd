@@ -1,6 +1,7 @@
 ## Hyprcube: makes the world spin, literally.
 ## This script handles the world rotation and provides movement orientation for the player.
 extends Node
+class_name Hyprcube
 
 signal rotation_started
 signal rotation_finished

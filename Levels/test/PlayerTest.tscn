@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://kmhowcpen55l"]
 
-[ext_resource type="Texture2D" uid="uid://ckpurs7554hni" path="res://Resources/Sprites/cubic/cubic.png" id="1_wdw13"]
-[ext_resource type="Script" uid="uid://bhyn4scqwsjig" path="res://Resources/Scripts/core/hyprground.gd" id="2_jt117"]
-[ext_resource type="Script" uid="uid://dcm7sxema2bw5" path="res://Resources/Scripts/Player/Player.gd" id="2_l7y46"]
-[ext_resource type="Script" uid="uid://de0pf52brxmoj" path="res://Resources/Scripts/Player/camera.gd" id="4_l7y46"]
-[ext_resource type="Script" uid="uid://cw82cr8k5myb8" path="res://Resources/Scripts/core/hyprcube.gd" id="4_vxpuc"]
+[ext_resource type="Texture2D" uid="uid://ckpurs7554hni" path="res://Sprites/cubic/cubic.png" id="1_wdw13"]
+[ext_resource type="Script" uid="uid://bhyn4scqwsjig" path="res://Scripts/HyprCore/hyprground.gd" id="2_jt117"]
+[ext_resource type="Script" uid="uid://dcm7sxema2bw5" path="res://Scripts/Player/Player.gd" id="2_l7y46"]
+[ext_resource type="Script" uid="uid://de0pf52brxmoj" path="res://Scripts/Player/camera.gd" id="4_l7y46"]
+[ext_resource type="Script" uid="uid://cw82cr8k5myb8" path="res://Scripts/HyprCore/hyprcube.gd" id="4_vxpuc"]
 
 [sub_resource type="Environment" id="Environment_gvvlp"]
 background_mode = 1

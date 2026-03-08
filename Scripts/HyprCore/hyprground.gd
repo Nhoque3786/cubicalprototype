@@ -2,6 +2,7 @@
 ## Since the world rotates, the player needs to be centered on the 1-unit blocks
 ## to ensure consistent movement along the X-axis.
 extends Node
+class_name Hyprground
 
 @export var max_distance: float = 128.0
 @export_flags_3d_physics var collision_mask: int = 1
