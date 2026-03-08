@@ -35,7 +35,7 @@ func update_animation(velocity: Vector3, is_on_floor: bool, input_h: float, did_
 
 	# Update direction (Flip H)
 	if input_h != 0:
-		var new_flip_h = input_h < 0
+		var new_flip_h: bool = input_h < 0
 		if animated_sprite.flip_h != new_flip_h:
 			animated_sprite.flip_h = new_flip_h
 			# Only play turn animation if we are on floor

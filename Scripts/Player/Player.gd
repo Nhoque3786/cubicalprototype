@@ -12,7 +12,7 @@ enum State { IDLE, MOVING, AIR, ROTATING, CLIMBING, GRABBING }
 @export var friction: float = 50.0
 @export var jump_power: float = 8.0
 @export var gravity: float = 24.0
-@export var jump_delay: float = 0.1
+@export var jump_delay: float = 0.03
 
 @export_group("Visuals")
 @export var animated_sprite: AnimatedSprite3D
@@ -79,14 +79,14 @@ func _physics_process(delta: float) -> void:
 	
 	# 4. Post-movement adjustments
 	if ground:
-		ground.snap(self, ground.max_distance)
+		(ground as Hyprground).snap(self, (ground as Hyprground).max_distance)
 
 	# 5. Visuals
 	if animator:
 		animator.update_animation(velocity, is_on_floor(), input_h, did_jump, delta)
 
 func _update_state(hyprcube: Node) -> void:
-	if hyprcube and hyprcube.is_world_rotating():
+	if hyprcube and (hyprcube as Hyprcube).is_world_rotating():
 		current_state = State.ROTATING
 		return
 		

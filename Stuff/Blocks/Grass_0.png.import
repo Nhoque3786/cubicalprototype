@@ -2,17 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ckpurs7554hni"
-path.s3tc="res://.godot/imported/cubic.png-60fa798b660160977d86d4ca238dda66.s3tc.ctex"
+uid="uid://xll0mwlqtkix"
+path.s3tc="res://.godot/imported/Grass_0.png-7b5a59795de868258d369cfbb7fcc272.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
+generator_parameters={
+"md5": "b2c8d414a8b311c982111fc579a419db"
+}
 
 [deps]
 
-source_file="res://Resources/Sprites/cubic/cubic.png"
-dest_files=["res://.godot/imported/cubic.png-60fa798b660160977d86d4ca238dda66.s3tc.ctex"]
+source_file="res://Stuff/Blocks/Grass_0.png"
+dest_files=["res://.godot/imported/Grass_0.png-7b5a59795de868258d369cfbb7fcc272.s3tc.ctex"]
 
 [params]
 

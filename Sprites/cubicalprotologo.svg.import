@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cr8rgjvu02y0y"
-path.s3tc="res://.godot/imported/cubicalprotologo.svg-cb0ba7888acef411ffd50653da2260ef.s3tc.ctex"
+path.s3tc="res://.godot/imported/cubicalprotologo.svg-22cba319f303a7ac8d1df5d3f4b14de4.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Resources/Sprites/cubicalprotologo.svg"
-dest_files=["res://.godot/imported/cubicalprotologo.svg-cb0ba7888acef411ffd50653da2260ef.s3tc.ctex"]
+source_file="res://Sprites/cubicalprotologo.svg"
+dest_files=["res://.godot/imported/cubicalprotologo.svg-22cba319f303a7ac8d1df5d3f4b14de4.s3tc.ctex"]
 
 [params]
 

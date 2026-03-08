@@ -2,24 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://xll0mwlqtkix"
-path.s3tc="res://.godot/imported/Grass_0.png-60c6944714b9e2dd089c37cd757c3d4e.s3tc.ctex"
+uid="uid://ck11nqtgve6uf"
+path="res://.godot/imported/cubicalprotologo.png-d1bbf3d56987d556f0fd4d630b8f3ecc.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
-}
-generator_parameters={
-"md5": "b2c8d414a8b311c982111fc579a419db"
+"vram_texture": false
 }
 
 [deps]
 
-source_file="res://Resources/Stuff/Blocks/Grass_0.png"
-dest_files=["res://.godot/imported/Grass_0.png-60c6944714b9e2dd089c37cd757c3d4e.s3tc.ctex"]
+source_file="res://Sprites/cubicalprotologo.png"
+dest_files=["res://.godot/imported/cubicalprotologo.png-d1bbf3d56987d556f0fd4d630b8f3ecc.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
@@ -27,7 +23,7 @@ compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=true
+mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
@@ -41,4 +37,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=0
+detect_3d/compress_to=1
