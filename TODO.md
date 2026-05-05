@@ -16,7 +16,7 @@
 ### Systems
 - [ ] **Death & Respawn:** Logic for when Cubic falls below a certain Y level.
 - [ ] **Level Transition:** A simple "door" block that loads a new scene.
-- [ ] **Smooth Camera:** Implement a Lerp-based follow script for the Camera.
+- [x] **Smooth Camera:** Implement a Lerp-based follow script for the Camera.
 - [ ] **Camera Collision:** Prevent the Camera from clipping/going inside blocks.
 
 ### Visuals & Polish
