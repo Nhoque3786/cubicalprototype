@@ -1,0 +1,24 @@
+# Godot 4.x specific ignores
+.godot/
+
+# Godot-specific ignores
+*.translation
+
+# External tool ignores
+.import/
+export_presets.cfg
+
+# Mono/C# specific ignores (if ever used)
+.mono/
+data_*/
+mono_crash.*.json
+
+# JetBrains IDE ignores
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# OS specific ignores
+.DS_Store
+Thumbs.db
