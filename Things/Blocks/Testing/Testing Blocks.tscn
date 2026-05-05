@@ -1,0 +1,60 @@
+[gd_scene load_steps=10 format=3 uid="uid://co66kckjucwp6"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_white"]
+
+[sub_resource type="BoxShape3D" id="BoxShape_common"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_red"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_red"]
+material = SubResource("StandardMaterial3D_red")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_green"]
+albedo_color = Color(0, 1, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_green"]
+material = SubResource("StandardMaterial3D_green")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_blue"]
+albedo_color = Color(0, 0, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_blue"]
+material = SubResource("StandardMaterial3D_blue")
+
+[node name="TestingLibrary" type="Node3D"]
+
+[node name="WhiteBlock" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_white")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="WhiteBlock"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WhiteBlock/StaticBody3D"]
+shape = SubResource("BoxShape_common")
+
+[node name="RedBlock" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+mesh = SubResource("BoxMesh_red")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="RedBlock"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RedBlock/StaticBody3D"]
+shape = SubResource("BoxShape_common")
+
+[node name="GreenBlock" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
+mesh = SubResource("BoxMesh_green")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="GreenBlock"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GreenBlock/StaticBody3D"]
+shape = SubResource("BoxShape_common")
+
+[node name="BlueBlock" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 0)
+mesh = SubResource("BoxMesh_blue")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="BlueBlock"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BlueBlock/StaticBody3D"]
+shape = SubResource("BoxShape_common")
