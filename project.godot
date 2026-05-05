@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="Cubical Prototype"
+run/main_scene="res://Levels/Testing Grounds/PlayerTesting.tscn"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 boot_splash/bg_color=Color(0.21960784, 0.7058824, 1, 1)
 boot_splash/image="uid://cidfeuejcbte1"
@@ -53,7 +54,7 @@ rotate_right={
 
 [physics]
 
-3d/physics_engine="Jolt Physics"
+3d/physics_engine="GodotPhysics"
 
 [rendering]
 

@@ -59,7 +59,7 @@ func _physics_process(delta: float) -> void:
 			_handle_horizontal_movement(input_h, delta)
 			_apply_gravity(delta)
 		State.CLIMBING:
-			# TODO: Implement climbing logic
+			# TODO: Implement climbing logic (after i actually make the climbing sprite)
 			pass
 		_: # Ground states (IDLE, MOVING)
 			_handle_horizontal_movement(input_h, delta)
@@ -106,16 +106,39 @@ func _find_hyprcore(parent: Node) -> Hyprcore:
 	return null
 
 func _handle_horizontal_movement(input_h: float, delta: float) -> void:
-	if input_h != 0:
-		velocity.x = move_toward(velocity.x, input_h * speed, acceleration * delta)
-	else:
-		velocity.x = move_toward(velocity.x, 0.0, friction * delta)
+	var move_dir := _get_screen_horizontal_dir()
+
+	var current_h_vel := velocity.dot(move_dir)
 	
-	velocity.z = 0.0
+	if input_h != 0:
+		current_h_vel = move_toward(current_h_vel, input_h * speed, acceleration * delta)
+	else:
+		current_h_vel = move_toward(current_h_vel, 0.0, friction * delta)
+
+	velocity = (move_dir * current_h_vel) + (Vector3.UP * velocity.y)
 
 func _apply_friction(delta: float) -> void:
-	velocity.x = move_toward(velocity.x, 0.0, friction * delta)
-	velocity.z = 0.0
+	var move_dir := _get_screen_horizontal_dir()
+	var current_h_vel := velocity.dot(move_dir)
+	
+	current_h_vel = move_toward(current_h_vel, 0.0, friction * delta)
+	velocity = (move_dir * current_h_vel) + (Vector3.UP * velocity.y)
+
+func _get_screen_horizontal_dir() -> Vector3:
+	var cam := get_viewport().get_camera_3d()
+	if not cam: return Vector3.RIGHT
+
+	var screen_right := cam.global_transform.basis.x
+	screen_right.y = 0
+	screen_right = screen_right.normalized()
+
+	var local_x := global_transform.basis.x
+	var local_z := global_transform.basis.z
+
+	if abs(local_x.dot(screen_right)) > abs(local_z.dot(screen_right)):
+		return local_x * sign(local_x.dot(screen_right))
+	else:
+		return local_z * sign(local_z.dot(screen_right))
 
 func _apply_gravity(delta: float) -> void:
 	velocity.y -= gravity * delta
