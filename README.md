@@ -1,10 +1,20 @@
-# Cubical: Kinda like a FEZ spiritual sucessor, made on godot. (Or some thing like that)
-## Prototype Edition! 
-This amazing project is for a game i'm making for learning how to make games and 100% pure for the love i have for the concept the original game has. 
+# Cubical: Kinda like a FEZ spiritual successor, made on Godot.
+(Or something like that idk I'm still thinking on a better title for this)
+Cubic is a yellowish cuboid who always lived a peaceful life on its own, but they discover their universe has more depth than they think!
 
-This is the Prototype Edition, made to launch as a webgame on NG and to experiment with the idea of a 2d/3d game. Full game will be in the works after this is done and i get permission from Polytron.
-## What i'm using for making this?
-Mostly, *Open Source* Software!
+## This is the Prototype Edition!
+This project is a game I'm currently making for learning how to make games and for the 100% love I have for the concept the original game has! Plus it's been what, 15 years?
+
+Still at a very early stage, so expect things to be broken as frick! I'm busy fleshing out the story and levels, plus thinking about what twists to add to the mechanics. Check TODO.md to see what I'm up to.
+
+## What will happen when I finish this?
+I'm planning to launch as a webgame on Newgrounds after everything is good to show the concept of the "story" and stuff, kinda like a little demo. Probably it will have a small size of bytes to collect (something like 16.)
+
+**After that, an Actual Demo and Full game will be in the works when I get permission from Polytron to continue this.**
+Why? Since this project kinda "refreshes" FEZ's concepts of 2D platforming in a 3D space, and for respect of the original work, I will have to check out with Polytron Corporation if it's okay to continue this project as a full thing, since I really don't want to get into trouble doing something wrong. I'm just "reviving" the concept for fun (and maybe stubbornness perhaps) since it's been awhile that a game like FEZ came out.
+
+## What I'm using for making this?
+Mostly, *Open Source* Software! 
 
 ### 2D Art
 - [Aseprite](https://aseprite.org/)
@@ -17,4 +27,14 @@ Mostly, *Open Source* Software!
 
 ### Sound
 - [OpenMPT](https://www.openmpt.org/)
+- [Furnace Tracker](https://github.com/tildearrow/furnace)
+- [MilkyTracker](https://milkytracker.org)
 - [Audacity](https://www.audacityteam.org/)
+
+### Code Editor
+ - [Zed](https://zed.dev/)
+
+ ## Special thanks to:
+ - [0x45454545](https://github.com/0x45454545) for giving support and help with some code/thinking, and also for actually making me kickstarting this thing in the first place!
+ - squidly from [Pixel Underground](https://pixel-underground.com/) for helping me out on figuring out how to make cubic's sprite sheet, love ya dude!
+ - Polytron, for just making FEZ, and somehow making my hyperfocus on cubes even more intense lmao
