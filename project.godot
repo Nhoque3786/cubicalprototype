@@ -12,6 +12,8 @@ config_version=5
 
 config/name="Cubical Prototype"
 config/features=PackedStringArray("4.6", "GL Compatibility")
+boot_splash/bg_color=Color(0.21960784, 0.7058824, 1, 1)
+boot_splash/image="uid://cidfeuejcbte1"
 config/icon="uid://cidfeuejcbte1"
 
 [input]
