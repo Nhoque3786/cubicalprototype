@@ -106,16 +106,46 @@ func _find_hyprcore(parent: Node) -> Hyprcore:
 	return null
 
 func _handle_horizontal_movement(input_h: float, delta: float) -> void:
-	if input_h != 0:
-		velocity.x = move_toward(velocity.x, input_h * speed, acceleration * delta)
-	else:
-		velocity.x = move_toward(velocity.x, 0.0, friction * delta)
+	var move_dir := _get_screen_horizontal_dir()
 	
-	velocity.z = 0.0
+	# Get current horizontal velocity by projecting global velocity onto move_dir
+	var current_h_vel := velocity.dot(move_dir)
+	
+	if input_h != 0:
+		current_h_vel = move_toward(current_h_vel, input_h * speed, acceleration * delta)
+	else:
+		current_h_vel = move_toward(current_h_vel, 0.0, friction * delta)
+	
+	# Reconstruct velocity: (horizontal * dir) + (vertical * UP)
+	# This automatically zeroes out "depth" velocity relative to the current plane
+	velocity = (move_dir * current_h_vel) + (Vector3.UP * velocity.y)
 
 func _apply_friction(delta: float) -> void:
-	velocity.x = move_toward(velocity.x, 0.0, friction * delta)
-	velocity.z = 0.0
+	var move_dir := _get_screen_horizontal_dir()
+	var current_h_vel := velocity.dot(move_dir)
+	
+	current_h_vel = move_toward(current_h_vel, 0.0, friction * delta)
+	velocity = (move_dir * current_h_vel) + (Vector3.UP * velocity.y)
+
+func _get_screen_horizontal_dir() -> Vector3:
+	var cam := get_viewport().get_camera_3d()
+	if not cam: return Vector3.RIGHT
+	
+	# What direction is "Right" on the screen in global space?
+	var screen_right := cam.global_transform.basis.x
+	screen_right.y = 0
+	screen_right = screen_right.normalized()
+	
+	# Since we are a child of Level, we want to move along whichever 
+	# of the Level's local axes (X or Z) currently looks "Right" on screen.
+	var local_x := global_transform.basis.x
+	var local_z := global_transform.basis.z
+	
+	# Pick the axis that aligns best with screen_right
+	if abs(local_x.dot(screen_right)) > abs(local_z.dot(screen_right)):
+		return local_x * sign(local_x.dot(screen_right))
+	else:
+		return local_z * sign(local_z.dot(screen_right))
 
 func _apply_gravity(delta: float) -> void:
 	velocity.y -= gravity * delta
