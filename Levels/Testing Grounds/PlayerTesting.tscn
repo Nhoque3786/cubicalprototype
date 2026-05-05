@@ -27,6 +27,7 @@ data = {
 [node name="Cubic" parent="Level" unique_id=1993453551 instance=ExtResource("3_7d0ke")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5062774, 1.4511102, 3.4910345)
 
+
 [node name="Enviroment" type="WorldEnvironment" parent="." unique_id=1317213428]
 environment = SubResource("Environment_18icj")
 
