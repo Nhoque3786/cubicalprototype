@@ -1,0 +1,29 @@
+63f7b34db8d8cdea90c76aacccf841ec
+::res://::1777942849
+cubicalprotologo.png::CompressedTexture2D::5340857034949965878::1777941686::1777942361::1::::<><><>0<>0<>64c5fd38e3ce0d3bdfb51c363da59fda<>res://.godot/imported/cubicalprotologo.png-3b5eb49a22626c2e4843b703cbc3083a.ctex::
+cubicalprotologo.svg::CompressedTexture2D::7043161822591022997::1777941687::1777942361::1::::<><><>0<>0<>ff6e4a9efb26195905b37146e818c623<>res://.godot/imported/cubicalprotologo.svg-3542933b13f84cf487c2218c2ef864af.ctex::
+README.md::TextFile::-1::1777941688::0::1::::<><><>0<>0<><>::
+TODO.md::TextFile::-1::1777860970::0::1::::<><><>0<>0<><>::
+::res://Levels/::1777838220
+leveltemplate.tscn::PackedScene::6007519158748507854::1777838220::0::1::::<><><>0<>0<><>::uid://cqn503nr5wl1t::::res://Things/Hyprcore/Hyprcore.gd<>uid://bxp62fmgyw0at::::res://Things/Camera/Camera.tscn
+::res://Levels/Testing Grounds/::1777859929
+PlayerTesting.tscn::PackedScene::4250213449577993498::1777859929::0::1::::<><><>0<>0<><>::uid://cqn503nr5wl1t::::res://Things/Hyprcore/Hyprcore.gd<>uid://dk6dhovveardr::::res://Things/Blocks/Testing/testingblocks.tres<>uid://danjkgpgpc651::::res://Things/Player/Cubic.tscn<>uid://bxp62fmgyw0at::::res://Things/Camera/Camera.tscn
+::res://Things/::1777837980
+::res://Things/Blocks/::1777693026
+::res://Things/Blocks/Testing/::1777859892
+Testing Blocks.tscn::PackedScene::5821381094339812453::1777783507::0::1::::<><><>0<>0<><>::
+testingblocks.tres::MeshLibrary::7925341618098417499::1777859892::0::1::::<><><>0<>0<><>::
+::res://Things/Camera/::1777838064
+Camera.tscn::PackedScene::4033660478349917031::1777838064::0::1::::<><><>0<>0<><>::uid://ma2fydjdph4i::::res://Things/Camera/Script/camera.gd
+::res://Things/Camera/Script/::1777941685
+camera.gd::GDScript::843915677038950790::1777941685::0::1::::<>Camera3D<><>0<>0<><>::
+::res://Things/Hyprcore/::1777860933
+Hyprcore.gd::GDScript::5924567422577745699::1777860933::0::1::::Hyprcore<>Node3D<><>0<>0<><>::
+README.md::TextFile::-1::1777841874::0::1::::<><><>0<>0<><>::
+::res://Things/Player/::1777864132
+Cubic.tscn::PackedScene::7186663611360967570::1777864132::0::1::::<><><>0<>0<><>::uid://dlqv3fpygt12o::::res://Things/Player/Internals/cubic.png<>uid://ddbds3ketewo5::::res://Things/Player/Internals/player.gd
+README.md::TextFile::-1::1777788501::0::1::::<><><>0<>0<><>::
+::res://Things/Player/Internals/::1777942362
+cubic.png::CompressedTexture2D::7965694721128111556::1777941686::1777942362::1::::<><><>0<>0<>a1089af5b37ae3ba166abe4c455e10af<>res://.godot/imported/cubic.png-deb7354468fb4e9b15d7edb522c3ca13.s3tc.ctex::
+player.gd::GDScript::7372108741325211042::1777941687::0::1::::<>CharacterBody3D<><>0<>0<><>::
+PlayerAnimator.gd::GDScript::5303695520552857467::1777860959::0::1::::PlayerAnimator<>Node<><>0<>0<><>::
