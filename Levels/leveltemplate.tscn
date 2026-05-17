@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://cruc70bje60rq"]
+
+[ext_resource type="Script" uid="uid://cqn503nr5wl1t" path="res://Things/Hyprcore/Hyprcore.gd" id="1_5tvth"]
+[ext_resource type="PackedScene" uid="uid://bxp62fmgyw0at" path="res://Things/Camera/Camera.tscn" id="2_v8qrm"]
+
+[node name="World" type="Node3D" unique_id=916488818]
+script = ExtResource("1_5tvth")
+
+[node name="Camera" parent="." unique_id=13397179 instance=ExtResource("2_v8qrm")]
+
+[node name="Level" type="Node3D" parent="." unique_id=1681891380]
+
+[node name="GridMap" type="GridMap" parent="Level" unique_id=620663685]
+
+[node name="Enviroment" type="WorldEnvironment" parent="." unique_id=1317213428]
