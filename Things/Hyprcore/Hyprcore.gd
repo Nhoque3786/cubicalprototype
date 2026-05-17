@@ -102,10 +102,11 @@ func rotate_world() -> void:
 
 	snap_to_grid(player)
 	is_rotating = false
+	target_rotation_y_deg = fmod(target_rotation_y_deg, 360.0)
 	rotation_finished.emit()
 
 # Hyprgrid: Snapping player to grid to make 2D platforming possible on 3D.
-func snap_to_grid(body: CharacterBody3D, _unused: GridMap = null) -> void:
+func snap_to_grid(body: CharacterBody3D) -> void:
 	if body == null or not body.is_inside_tree():
 		return
 

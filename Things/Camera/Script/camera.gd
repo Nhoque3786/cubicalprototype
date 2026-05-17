@@ -28,8 +28,6 @@ func _process(delta: float) -> void:
 	var target_pos: Vector3 = target.global_position + offset
 
 	if smooth_speed > 0:
-		global_position = global_position.lerp(target_pos, smooth_speed * delta)
+		global_position = global_position.lerp(target_pos, 1.0 - exp(-smooth_speed * delta))
 	else:
 		global_position = target_pos
-	
-	return

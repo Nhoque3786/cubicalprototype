@@ -11,6 +11,13 @@ class_name PlayerAnimator
 @export var hard_land_speed: float = 14.0
 @export var stretch_velocity_threshold: float = 5.0
 
+# Blink system
+@export var blink_interval_min: float = 2.0
+@export var blink_interval_max: float = 6.0
+var _blink_timer: float = 4.0
+var _is_blinking: bool = false
+const _BLINK_DURATION: float = 0.6
+
 func update_animation(
 	h_vel: float,
 	v_vel: float,
@@ -19,9 +26,11 @@ func update_animation(
 	did_jump: bool,
 	just_landed: bool,
 	fall_speed: float,
-	_delta: float
+	delta: float
 ) -> void:
 	if not animated_sprite: return
+
+	_update_blink_timer(delta)
 
 	# 1. High Priority: Jump Start (Squish phase)
 	if did_jump:
@@ -75,9 +84,23 @@ func update_animation(
 	var horizontal_speed: float = abs(h_vel)
 
 	if horizontal_speed > 0.1:
-		animated_sprite.play(&"walk")
+		animated_sprite.play(_get_blink_variant(&"walk", &"walk_blink"))
 		# Adjust animation speed based on actual movement speed (default speed 6.0)
 		animated_sprite.speed_scale = (horizontal_speed / 6.0) * walk_speed_mult
 	else:
-		animated_sprite.play(&"default")
+		animated_sprite.play(_get_blink_variant(&"default", &"default_blink"))
 		animated_sprite.speed_scale = 1.0
+
+func _update_blink_timer(delta: float) -> void:
+	_blink_timer -= delta
+	if _blink_timer <= 0.0:
+		_is_blinking = not _is_blinking
+		if _is_blinking:
+			_blink_timer = _BLINK_DURATION
+		else:
+			_blink_timer = randf_range(blink_interval_min, blink_interval_max)
+
+func _get_blink_variant(base_anim: StringName, blink_anim: StringName) -> StringName:
+	if _is_blinking and animated_sprite.sprite_frames.has_animation(blink_anim):
+		return blink_anim
+	return base_anim
