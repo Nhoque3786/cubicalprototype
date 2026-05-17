@@ -259,6 +259,7 @@ pixel_size = 0.0625
 billboard = 1
 texture_filter = 0
 sprite_frames = SubResource("SpriteFrames_4xe0v")
+animation = &"default_blink"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=539347367]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.340576e-05, -0.16851804, -0.00016474724)
