@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://bxp62fmgyw0at"]
+
+[ext_resource type="Script" uid="uid://ma2fydjdph4i" path="res://Things/Camera/Script/camera.gd" id="1_6sa4p"]
+
+[node name="Camera" type="Camera3D" unique_id=13397179]
+projection = 1
+script = ExtResource("1_6sa4p")
