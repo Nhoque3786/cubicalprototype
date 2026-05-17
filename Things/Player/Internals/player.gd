@@ -65,26 +65,16 @@ func _physics_process(delta: float) -> void:
 	match current_state:
 		State.ROTATING:
 			_apply_friction(h_dir, delta)
-		State.AIR:
+		State.CLIMBING:
+			# TODO: Implement climbing logic (after i actually make the climbing sprite/climbables)
+			pass
+		_: # Ground states (IDLE, MOVING) and AIR
 			_handle_horizontal_movement(h_dir, input_h, delta)
 			_apply_gravity(delta)
 
 			if is_preparing_jump:
 				_process_jump_timer(delta)
 			elif Input.is_action_just_pressed(&"jump") and coyote_timer > 0.0:
-				_start_jump_preparation()
-				coyote_timer = 0.0
-				did_jump = true
-		State.CLIMBING:
-			# TODO: Implement climbing logic (after i actually make the climbing sprite/climbables)
-			pass
-		_: # Ground states (IDLE, MOVING)
-			_handle_horizontal_movement(h_dir, input_h, delta)
-			_apply_gravity(delta)
-
-			if is_preparing_jump:
-				_process_jump_timer(delta)
-			elif Input.is_action_just_pressed(&"jump"):
 				_start_jump_preparation()
 				coyote_timer = 0.0
 				did_jump = true
@@ -138,6 +128,7 @@ func _apply_friction(move_dir: Vector3, delta: float) -> void:
 
 	current_h_vel = move_toward(current_h_vel, 0.0, friction * delta)
 	velocity = (move_dir * current_h_vel) + (Vector3.UP * velocity.y)
+
 func _get_screen_horizontal_dir() -> Vector3:
 	var cam: Camera3D = get_viewport().get_camera_3d()
 	if not cam: return Vector3.RIGHT

@@ -83,4 +83,4 @@ func _on_rotation_finished():
 
 ## Internal Notes
 - **Process Mode:** Hyprcore is set to `PROCESS_MODE_ALWAYS` so it can handle world rotation even while the game tree is paused.
-- **Hierarchy:** For the best effect, ensure the player (Cubic) is *not* a child of the `Level` node, as Hyprcore handles the global position translation manually during rotation to maintain consistency.
+- **Hierarchy:** The player (Cubic) should be a child of the `Level` node, so it rotates together with the world automatically. Hyprcore also includes a fallback that manually converts positions if Cubic is ever placed outside the `Level` node.
