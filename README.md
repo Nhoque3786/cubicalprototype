@@ -31,10 +31,12 @@ Mostly, *Open Source* Software!
 - [MilkyTracker](https://milkytracker.org)
 - [Audacity](https://www.audacityteam.org/)
 
-### Code Editor
+### Code Editors / IDEs
  - [Zed](https://zed.dev/)
+ - [Jetbrains Rider](https://www.jetbrains.com/rider/)
 
  ## Special thanks to:
  - [0x45454545](https://github.com/0x45454545) for giving support and help with some code/thinking, and also for actually making me kickstarting this thing in the first place!
  - squidly from [Pixel Underground](https://pixel-underground.com/) for helping me out on figuring out how to make cubic's sprite sheet, love ya dude!
  - Polytron, for just making FEZ, and somehow making my hyperfocus on cubes even more intense lmao
+
