@@ -31,10 +31,16 @@ Mostly, *Open Source* Software!
 - [MilkyTracker](https://milkytracker.org)
 - [Audacity](https://www.audacityteam.org/)
 
-### Code Editor
+### Code Editors / IDEs
  - [Zed](https://zed.dev/)
+ - [Jetbrains Rider](https://www.jetbrains.com/rider/)
 
  ## Special thanks to:
  - [0x45454545](https://github.com/0x45454545) for giving support and help with some code/thinking, and also for actually making me kickstarting this thing in the first place!
  - squidly from [Pixel Underground](https://pixel-underground.com/) for helping me out on figuring out how to make cubic's sprite sheet, love ya dude!
  - Polytron, for just making FEZ, and somehow making my hyperfocus on cubes even more intense lmao
+
+## AI Usage Note
+You might notice some AI agents in the contributor list. I use tools like **Junie** or **Gemini CLI** as "rubber duckies", mostly for brainstorming math, figuring out Godot's different functions or helping me fix bugs when I'm stuck on something.
+
+In a nutshell, **100% of this project is made my humans.** All the art, sound, and core mechanics are my own. The AI is a tool for learning and efficiency, not a replacement for my own creativity or coding skills. I'm here to make something I was dreaming about for years, not to let AI do everything for me, that would be a s*itty move from me.

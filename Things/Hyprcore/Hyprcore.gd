@@ -92,10 +92,9 @@ func rotate_world() -> void:
 	await tween.finished
 
 	get_tree().paused = false
-	await get_tree().physics_frame  # physics_frame is a valid SceneTree signal in Godot 4
+	await get_tree().physics_frame
 
-	# If the player is NOT a child of level_node, we must manually move them
-	# to their new global position after the rotation.
+
 	if player != null and player.get_parent() != level_node:
 		if has_player_position:
 			player.global_position = level_node.to_global(player_level_position)
