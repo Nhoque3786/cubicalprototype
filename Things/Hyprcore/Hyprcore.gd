@@ -54,11 +54,11 @@ func _unhandled_input(event: InputEvent) -> void:
 
 	var should_rotate: bool = false
 	if event.is_action_pressed("rotate_right"):
-		target_rotation_y_deg -= 90
+		target_rotation_y_deg = fposmod(target_rotation_y_deg - 90, 360.0)
 		current_side = posmod(current_side - 1, 4) as WorldSide
 		should_rotate = true
 	elif event.is_action_pressed("rotate_left"):
-		target_rotation_y_deg += 90
+		target_rotation_y_deg = fposmod(target_rotation_y_deg + 90, 360.0)
 		current_side = posmod(current_side + 1, 4) as WorldSide
 		should_rotate = true
 
@@ -80,19 +80,32 @@ func rotate_world() -> void:
 	is_rotating = true
 	rotation_started.emit()
 
-	get_tree().paused = true
+	# pausing the world to avoid things breaking on rotating
+	if player != null:
+		player.set_physics_process(false)
+	level_node.process_mode = Node.PROCESS_MODE_DISABLED
 
 	var tween: Tween = create_tween()
 	tween.set_trans(transition_type)
 	tween.set_ease(ease_type)
 
+	var start_rad: float = level_node.rotation.y
 	var target_rad: float = deg_to_rad(target_rotation_y_deg)
-	tween.tween_property(level_node, "rotation:y", target_rad, rotation_duration)
+	var angle_diff: float = fposmod(target_rad - start_rad + PI, TAU) - PI
+	
+	tween.tween_property(level_node, "rotation:y", start_rad + angle_diff, rotation_duration)
 
 	await tween.finished
+	
+	level_node.rotation.y = fposmod(level_node.rotation.y, TAU)
+	target_rotation_y_deg = fposmod(target_rotation_y_deg, 360.0)
 
-	get_tree().paused = false
-	await get_tree().physics_frame  # physics_frame is a valid SceneTree signal in Godot 4
+	# Re-enable everything
+	level_node.process_mode = Node.PROCESS_MODE_INHERIT
+	if player != null:
+		player.set_physics_process(true)
+	
+	await get_tree().physics_frame
 
 	# If the player is NOT a child of level_node, we must manually move them
 	# to their new global position after the rotation.
