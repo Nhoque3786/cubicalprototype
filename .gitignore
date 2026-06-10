@@ -19,6 +19,10 @@ mono_crash.*.json
 *.iws
 *.ipr
 
+# AI assistant tool ignores
+.claude/
+.junie/
+
 # OS specific ignores
 .DS_Store
 Thumbs.db

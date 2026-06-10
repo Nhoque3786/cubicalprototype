@@ -3,7 +3,10 @@
 extends CharacterBody3D
 class_name Player
 
-enum State { IDLE, MOVING, AIR, ROTATING, CLIMBING, GRABBING }
+enum State { IDLE, MOVING, AIR, ROTATING, CLIMBING, GRABBING, DEAD }
+
+signal died
+signal respawned
 
 @export_group("References")
 @export var hyprcore: Hyprcore
@@ -20,13 +23,17 @@ enum State { IDLE, MOVING, AIR, ROTATING, CLIMBING, GRABBING }
 @export_group("Visuals")
 @export var animated_sprite: AnimatedSprite3D
 
+@export_group("Death & Respawn")
+@export var death_y_threshold: float = -10.0
+@export var death_freeze_duration: float = 0.6
+@export var safe_ground_time: float = 0.3
+
 var current_state: State = State.IDLE
 
 # Components
+var movement: PlayerMovement
+var rip: PlayerRIP
 var animator: PlayerAnimator
-var jump_timer: float = 0.0
-var is_preparing_jump: bool = false
-var coyote_timer: float = 0.0
 var max_fall_speed: float = 0.0
 
 func _ready() -> void:
@@ -49,35 +56,46 @@ func _ready() -> void:
 		animator.animated_sprite = animated_sprite
 		add_child(animator)
 
+	# If no movement component exists, try to find it or create it
+	movement = find_child("PlayerMovement", true, false) as PlayerMovement
+	if movement == null:
+		movement = PlayerMovement.new()
+		movement.name = "PlayerMovement"
+		add_child(movement)
+
+	# If no RIP component exists, try to find it or create it
+	rip = find_child("PlayerRIP", true, false) as PlayerRIP
+	if rip == null:
+		rip = PlayerRIP.new()
+		rip.name = "PlayerRIP"
+		add_child(rip)
+
 func _physics_process(delta: float) -> void:
-	var h_dir: Vector3 = _get_screen_horizontal_dir()
+	if rip.is_dead():
+		return
+
+	if rip.check_death():
+		return
+
+	var h_dir: Vector3 = movement.get_screen_horizontal_dir()
 	_update_state(h_dir)
 	var was_on_floor: bool = is_on_floor()
 
-	if is_on_floor():
-		coyote_timer = coyote_time
-	else:
-		coyote_timer -= delta
+	movement.update_coyote_time(delta)
 
 	var input_h: float = Input.get_axis(&"move_left", &"move_right")
 	var did_jump: bool = false
 
 	match current_state:
 		State.ROTATING:
-			_apply_friction(h_dir, delta)
+			movement.apply_friction(h_dir, delta)
 		State.CLIMBING:
 			# TODO: Implement climbing logic (after i actually make the climbing sprite/climbables)
 			pass
 		_: # Ground states (IDLE, MOVING) and AIR
-			_handle_horizontal_movement(h_dir, input_h, delta)
-			_apply_gravity(delta)
-
-			if is_preparing_jump:
-				_process_jump_timer(delta)
-			elif Input.is_action_just_pressed(&"jump") and coyote_timer > 0.0:
-				_start_jump_preparation()
-				coyote_timer = 0.0
-				did_jump = true
+			movement.handle_horizontal_movement(h_dir, input_h, delta)
+			movement.apply_gravity(delta)
+			did_jump = movement.process_jump(delta)
 
 	move_and_slide()
 	var is_on_floor_now: bool = is_on_floor()
@@ -85,6 +103,8 @@ func _physics_process(delta: float) -> void:
 
 	if not is_on_floor_now:
 		max_fall_speed = max(max_fall_speed, abs(min(velocity.y, 0.0)))
+
+	rip.update_safe_position(is_on_floor_now, delta)
 
 	# Optimization: Only snap if we are moving or if we just landed.
 	var is_moving: bool = velocity.length_squared() > 0.01
@@ -100,6 +120,9 @@ func _physics_process(delta: float) -> void:
 		max_fall_speed = 0.0
 
 func _update_state(h_dir: Vector3) -> void:
+	if current_state == State.DEAD:
+		return
+
 	if hyprcore and hyprcore.is_rotating:
 		current_state = State.ROTATING
 		return
@@ -112,54 +135,6 @@ func _update_state(h_dir: Vector3) -> void:
 			current_state = State.MOVING
 		else:
 			current_state = State.IDLE
-
-func _handle_horizontal_movement(move_dir: Vector3, input_h: float, delta: float) -> void:
-	var current_h_vel: float = velocity.dot(move_dir)
-
-	if input_h != 0:
-		current_h_vel = move_toward(current_h_vel, input_h * speed, acceleration * delta)
-	else:
-		current_h_vel = move_toward(current_h_vel, 0.0, friction * delta)
-
-	velocity = (move_dir * current_h_vel) + (Vector3.UP * velocity.y)
-
-func _apply_friction(move_dir: Vector3, delta: float) -> void:
-	var current_h_vel: float = velocity.dot(move_dir)
-
-	current_h_vel = move_toward(current_h_vel, 0.0, friction * delta)
-	velocity = (move_dir * current_h_vel) + (Vector3.UP * velocity.y)
-
-func _get_screen_horizontal_dir() -> Vector3:
-	var cam: Camera3D = get_viewport().get_camera_3d()
-	if not cam: return Vector3.RIGHT
-
-	var screen_right: Vector3 = cam.global_transform.basis.x
-	screen_right.y = 0
-	screen_right = screen_right.normalized()
-
-	var local_x: Vector3 = global_transform.basis.x
-	var local_z: Vector3 = global_transform.basis.z
-
-	if abs(local_x.dot(screen_right)) > abs(local_z.dot(screen_right)):
-		return local_x * sign(local_x.dot(screen_right))
-	else:
-		return local_z * sign(local_z.dot(screen_right))
-
-func _apply_gravity(delta: float) -> void:
-	velocity.y -= gravity * delta
-
-func _process_jump_timer(delta: float) -> void:
-	jump_timer -= delta
-	if jump_timer <= 0:
-		_handle_jump()
-		is_preparing_jump = false
-
-func _handle_jump() -> void:
-	velocity.y = jump_power
-
-func _start_jump_preparation() -> void:
-	is_preparing_jump = true
-	jump_timer = jump_delay
 
 func _on_rotation_finished() -> void:
 	if hyprcore:

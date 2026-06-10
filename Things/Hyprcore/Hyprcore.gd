@@ -30,6 +30,8 @@ enum DepthPriority { NEAREST, FRONTMOST, BEHINDMOST }
 enum WorldSide {NORTH, EAST, SOUTH, WEST}
 var current_side: WorldSide = WorldSide.NORTH
 
+
+
 func _enter_tree() -> void:
 	add_to_group(&"hyprcore")
 
@@ -162,7 +164,7 @@ func snap_to_grid(body: CharacterBody3D, _unused: GridMap = null) -> void:
 	body.global_position += depth_direction * snap_distance
 
 func _get_grid_snap_position(body: CharacterBody3D, origin: Vector3, depth_direction: Vector3) -> Variant:
-	var active_grid: GridMap = _get_grid_map()
+	var active_grid: GridMap = get_grid_map()
 	if active_grid == null:
 		return null
 
@@ -251,15 +253,15 @@ func _is_better_depth_candidate(
 		_:
 			return depth_distance < best_depth_distance
 
-func _get_grid_map() -> GridMap:
+func get_grid_map() -> GridMap:
 	if grid_map != null and grid_map.is_inside_tree():
 		return grid_map
-
 	if level_node == null:
 		return null
-
 	grid_map = level_node.find_child("GridMap", true, false) as GridMap
 	return grid_map
+
+
 
 func _get_player() -> CharacterBody3D:
 	return get_tree().get_first_node_in_group(&"player") as CharacterBody3D

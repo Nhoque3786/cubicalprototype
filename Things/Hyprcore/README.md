@@ -1,6 +1,6 @@
 # Hyprcore: The Heart and brains of Cubical!
 
-Hyprcore is the central system responsible for managing the "2.5D" perspective of Cubical. It enables a 2D gameplay experience within a 3D environment by handling world rotation and ensuring the player remains aligned with the active plane of movement.
+Hyprcore is the central system responsible for managing the "2.5D" perspective of Cubical. It enables a 2D gameplay experience within a 3D environment by handling world rotation, grid snapping, and safe spawn tracking.
 
 ## Core Features
 
@@ -25,6 +25,8 @@ The system keeps track of the current world orientation using a 4-state enum (`W
 - `SOUTH`
 - `WEST`
 
+
+
 ## Signals
 
 | Signal | Description |
@@ -48,6 +50,15 @@ The system keeps track of the current world orientation using a 4-state enum (`W
 | `Max Floor Snap Height` | Maximum height above a cell where Cubic can still snap to that cell's depth lane. |
 | `Grounded Depth Priority` | Which depth lane to choose while Cubic is on the floor. Defaults to `NEAREST`. |
 | `Airborne Depth Priority` | Which depth lane to choose while Cubic is jumping/falling. Defaults to `BEHINDMOST`. |
+
+## Public API
+
+| Method | Returns | Description |
+| :--- | :--- | :--- |
+| `snap_to_grid(body)` | `void` | Snaps a `CharacterBody3D` to the correct depth lane for the current view. |
+| `get_grid_map()` | `GridMap` | Returns the active GridMap, searching under `Level Node` if needed. |
+| `get_depth_direction()` | `Vector3` | Returns the current camera depth axis (normalized, Y-flattened). |
+| `get_screen_horizontal_direction()` | `Vector3` | Returns the current camera horizontal axis (normalized, Y-flattened). |
 
 ## Usage
 
@@ -81,6 +92,10 @@ func _on_rotation_finished():
     pass
 ```
 
+
 ## Internal Notes
 - **Process Mode:** Hyprcore is set to `PROCESS_MODE_ALWAYS` so it can handle world rotation even while the game tree is paused.
 - **Hierarchy:** The player (Cubic) should be a child of the `Level` node, so it rotates together with the world automatically. Hyprcore also includes a fallback that manually converts positions if Cubic is ever placed outside the `Level` node.
+- **`get_grid_map()` limitation:** Currently finds only the first GridMap named `"GridMap"` under `Level Node`. If you add multiple GridMaps in the future, the safe spawn probe may need to switch to a physics raycast approach instead.
+
+---
