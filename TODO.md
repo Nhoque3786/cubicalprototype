@@ -16,7 +16,7 @@
 - [x] Implement **Coyote Time** for more forgiving platforming.
 
 ### Systems
-- [ ] **Death & Respawn:** Logic for when Cubic falls below a certain Y level. (also add "safe?" var for blocks)
+- [x] **Death & Respawn:** Logic for when Cubic falls below a certain Y level. (last-safe-ground respawn, death_fall animation)
 - [ ] **Level Transition:** A simple "door" thing that loads a new scene.
 - [x] **Smooth Camera:** Implement a Lerp-based follow script for the Camera.
 - [ ] **Camera Collision:** Prevent the Camera from clipping/going inside some blocks. (add a "clippable" var, this might be fun)

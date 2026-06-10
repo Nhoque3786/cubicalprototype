@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://67ysaqe4xhk8"]
+
+[ext_resource type="Script" uid="uid://cqn503nr5wl1t" path="res://Things/Hyprcore/Hyprcore.gd" id="1_dlyrc"]
+[ext_resource type="PackedScene" uid="uid://bxp62fmgyw0at" path="res://Things/Camera/Camera.tscn" id="2_28elq"]
+[ext_resource type="MeshLibrary" uid="uid://dk6dhovveardr" path="res://Things/Blocks/Testing/testingblocks.tres" id="2_vka7y"]
+[ext_resource type="PackedScene" uid="uid://danjkgpgpc651" path="res://Things/Player/Cubic.tscn" id="3_7vjsd"]
+
+[sub_resource type="Environment" id="Environment_18icj"]
+background_mode = 1
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+
+[node name="World" type="Node3D" unique_id=916488818 node_paths=PackedStringArray("level_node")]
+script = ExtResource("1_dlyrc")
+level_node = NodePath("Level")
+
+[node name="Level" type="Node3D" parent="." unique_id=1681891380]
+
+[node name="GridMap" type="GridMap" parent="Level" unique_id=1822044828]
+mesh_library = ExtResource("2_vka7y")
+cell_size = Vector3(1, 1, 1)
+cell_octant_size = 4
+data = {
+"cells": PackedInt32Array(65532, 0, 0, 65533, 0, 0, 65534, 65534, 0, 65534, 65535, 0, 65534, 0, 0, 1, 1, 0, 1, 2, 0, 1, 3, 0, 2, 1, 0, 3, 1, 0, 131076, 0, 2, 196612, 0, 2, -65529, 0, 3, -65527, 0, 3, 131083, 0, 3, 65546, 0, 3, 65548, 0, 3, -65528, 0, 3, -65531, 0, 3, -65530, 0, 3, -65533, 0, 3, -65534, 0, 3, -131071, 0, 3, -196608, 0, 3, -131073, 0, 3, 4, 0, 3, 10, 0, 3)
+}
+metadata/_editor_floor_ = Vector3(0, 0, -2)
+
+[node name="Cubic" parent="Level" unique_id=1993453551 instance=ExtResource("3_7vjsd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5062774, 1.4511102, 3.4910345)
+
+[node name="Enviroment" type="WorldEnvironment" parent="." unique_id=1317213428]
+environment = SubResource("Environment_18icj")
+
+[node name="Camera" parent="." unique_id=13397179 node_paths=PackedStringArray("target") instance=ExtResource("2_28elq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 7)
+size = 6.0
+target = NodePath("../Level/Cubic")
+radius = 16.0
