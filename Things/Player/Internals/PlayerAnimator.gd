@@ -65,7 +65,6 @@ func update_animation(
 		animated_sprite.speed_scale = 1.0
 
 		# Use stretch animation only for fast falling
-		# The user mentioned jump animation reuses squish, so we fallback to that if stretch is missing.
 		if v_vel < -stretch_velocity_threshold:
 			if animated_sprite.sprite_frames.has_animation(&"stretch"):
 				animated_sprite.play(&"stretch")

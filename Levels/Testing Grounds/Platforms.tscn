@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://67ysaqe4xhk8"]
+
+[ext_resource type="Script" uid="uid://cqn503nr5wl1t" path="res://Things/Hyprcore/Hyprcore.gd" id="1_e1g30"]
+[ext_resource type="MeshLibrary" uid="uid://dk6dhovveardr" path="res://Things/Blocks/Testing/testingblocks.tres" id="2_57kbe"]
+[ext_resource type="PackedScene" uid="uid://danjkgpgpc651" path="res://Things/Player/Cubic.tscn" id="3_ga2a5"]
+[ext_resource type="PackedScene" uid="uid://bxp62fmgyw0at" path="res://Things/Camera/Camera.tscn" id="4_c6uyu"]
+
+[sub_resource type="Environment" id="Environment_18icj"]
+background_mode = 1
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+
+[node name="World" type="Node3D" unique_id=916488818 node_paths=PackedStringArray("level_node")]
+script = ExtResource("1_e1g30")
+level_node = NodePath("Level")
+
+[node name="Level" type="Node3D" parent="." unique_id=1681891380]
+
+[node name="GridMap" type="GridMap" parent="Level" unique_id=1822044828]
+mesh_library = ExtResource("2_57kbe")
+cell_size = Vector3(1, 1, 1)
+cell_octant_size = 4
+data = {
+"cells": PackedInt32Array(65534, 65534, 524288, 65535, 65534, 524288, 0, 0, 524288, 1, 0, 524288, 4, 4, 524288, 5, 4, 524288, 6, 2, 524288, 7, 2, 524288, 10, 65530, 524288, 11, 65530, 524288, 12, 65532, 524288, 13, 65532, 524288)
+}
+metadata/_editor_floor_ = Vector3(0, 0, 0)
+
+[node name="Cubic" parent="Level" unique_id=1993453551 instance=ExtResource("3_ga2a5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.50627744, 1.4511102, 0.4910345)
+
+[node name="Enviroment" type="WorldEnvironment" parent="." unique_id=1317213428]
+environment = SubResource("Environment_18icj")
+
+[node name="Camera" parent="." unique_id=13397179 node_paths=PackedStringArray("target") instance=ExtResource("4_c6uyu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 7)
+size = 6.0
+target = NodePath("../Level/Cubic")
+radius = 16.0
