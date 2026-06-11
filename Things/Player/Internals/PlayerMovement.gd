@@ -7,6 +7,7 @@ var player: Player
 # Internal variables for jumping/movement
 var coyote_timer: float = 0.0
 var jump_timer: float = 0.0
+var jump_buffer_timer: float = 0.0
 var is_preparing_jump: bool = false
 
 func _ready() -> void:
@@ -34,6 +35,12 @@ func update_coyote_time(delta: float) -> void:
 	else:
 		coyote_timer -= delta
 
+func update_jump_buffer(delta: float) -> void:
+	if Input.is_action_just_pressed(&"jump"):
+		jump_buffer_timer = player.jump_buffer_time
+	else:
+		jump_buffer_timer -= delta
+
 func handle_horizontal_movement(move_dir: Vector3, input_h: float, delta: float) -> void:
 	var current_h_vel: float = player.velocity.dot(move_dir)
 
@@ -55,20 +62,26 @@ func apply_gravity(delta: float) -> void:
 
 func process_jump(delta: float) -> bool:
 	var did_jump: bool = false
+	
 	if is_preparing_jump:
 		jump_timer -= delta
 		if jump_timer <= 0:
 			player.velocity.y = player.jump_power
 			is_preparing_jump = false
-			did_jump = true  # Fire the flag when velocity actually launches
-	elif Input.is_action_just_pressed(&"jump") and coyote_timer > 0.0:
+			did_jump = true
+			jump_buffer_timer = 0.0
+	
+	# Only allow a jump if the buffer is active AND we are either on the floor or in coyote time
+	elif jump_buffer_timer > 0.0 and coyote_timer > 0.0:
 		if player.jump_delay <= 0.0:
-			# No delay: launch immediately
 			player.velocity.y = player.jump_power
 			coyote_timer = 0.0
+			jump_buffer_timer = 0.0
 			did_jump = true
 		else:
 			is_preparing_jump = true
 			jump_timer = player.jump_delay
 			coyote_timer = 0.0
+			# We don't reset buffer here, we let it be consumed by is_preparing_jump
+			
 	return did_jump

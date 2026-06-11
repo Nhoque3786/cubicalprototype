@@ -9,25 +9,37 @@ extends Camera3D
 func _ready() -> void:
 	process_mode = PROCESS_MODE_ALWAYS
 	set_projection(Camera3D.PROJECTION_ORTHOGONAL)
+
+	far = 2000.0
+	near = 0.1
+
 	if target == null:
 		print("No camera target, focusing on origin instead!")
 		return
 	
-	# Initial rotation setup
-	var rad: float = deg_to_rad(angle)
-	var offset: Vector3 = Vector3(sin(rad) * radius, height, cos(rad) * radius)
-	global_position = target.global_position + offset
+	_update_camera_pos(0.0)
 	look_at(target.global_position, Vector3.UP)
 		
 func _process(delta: float) -> void:
 	if target == null:
 		return
+	_update_camera_pos(delta)
 
+func _update_camera_pos(delta: float) -> void:
 	var rad: float = deg_to_rad(angle)
-	var offset: Vector3 = Vector3(sin(rad) * radius, height, cos(rad) * radius)
-	var target_pos: Vector3 = target.global_position + offset
+	var forward: Vector3 = Vector3(sin(rad), 0, cos(rad))
+	var right: Vector3 = Vector3(forward.z, 0, -forward.x)
 
-	if smooth_speed > 0:
+	var target_horiz_dist: float = right.dot(target.global_position)
+	var target_vert_dist: float = target.global_position.y + height
+
+	var target_pos: Vector3 = (right * target_horiz_dist) + (Vector3.UP * target_vert_dist)
+
+	target_pos += forward * radius
+
+
+	if delta > 0 and smooth_speed > 0:
 		global_position = global_position.lerp(target_pos, 1.0 - exp(-smooth_speed * delta))
 	else:
 		global_position = target_pos
+
