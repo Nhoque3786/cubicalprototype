@@ -13,9 +13,9 @@ Hyprcore manages the 90-degree rotations that define the game's perspective shif
 
 ### 2. Hyprgrid (Grid Snapping)
 To prevent players from falling off or being misaligned after a "reality shift," Hyprcore includes a dual-layer snapping system.
-- **GridMap Projection:** Uses occupied `GridMap` cells to find valid blocks under Cubic's 2D screen projection.
-- **Raycast Fallback:** Uses a series of vertical raycasts along the depth axis as a backup when no projected `GridMap` cell is found.
 - **View-Depth Alignment:** Snaps along the camera's depth axis instead of assuming world `Z` is always the active depth lane.
+- **Infinite Depth Snapping:** Searches deep into the camera's projection to allow Cubic to stand on any visible platform.
+- **Smooth Depth Snapping:** Uses frame-independent exponential smoothing to glide Cubic between depth layers, preventing "popping" visuals.
 - **Depth Priority:** Supports `NEAREST`, `FRONTMOST`, and `BEHINDMOST` selection when multiple blocks overlap in the current 2D view.
 
 ### 3. HyprOrient (Orientation Flagging)
@@ -48,6 +48,8 @@ The system keeps track of the current world orientation using a 4-state enum (`W
 | `Vertical Offsets` | Array of Y-offsets for the raycast snapping system to ensure detection across the player's height. |
 | `Projected Snap Tolerance` | How close Cubic's screen-space horizontal position must be to a projected cell center. |
 | `Max Floor Snap Height` | Maximum height above a cell where Cubic can still snap to that cell's depth lane. |
+| `Snap Speed` | Speed of the depth interpolation. Set to `0` for instant snapping (default: 24.0). |
+| `Search Depth Radius` | Number of cells to search along the depth axis for alignment (default: 64). |
 | `Grounded Depth Priority` | Which depth lane to choose while Cubic is on the floor. Defaults to `NEAREST`. |
 | `Airborne Depth Priority` | Which depth lane to choose while Cubic is jumping/falling. Defaults to `BEHINDMOST`. |
 
@@ -55,7 +57,7 @@ The system keeps track of the current world orientation using a 4-state enum (`W
 
 | Method | Returns | Description |
 | :--- | :--- | :--- |
-| `snap_to_grid(body)` | `void` | Snaps a `CharacterBody3D` to the correct depth lane for the current view. |
+| `snap_to_grid(body, force_instant)` | `void` | Snaps a `CharacterBody3D` to the correct depth lane. `force_instant` (bool) toggles interpolation. |
 | `get_grid_map()` | `GridMap` | Returns the active GridMap, searching under `Level Node` if needed. |
 | `get_depth_direction()` | `Vector3` | Returns the current camera depth axis (normalized, Y-flattened). |
 | `get_screen_horizontal_direction()` | `Vector3` | Returns the current camera horizontal axis (normalized, Y-flattened). |
@@ -94,6 +96,7 @@ func _on_rotation_finished():
 
 
 ## Internal Notes
+- **Smooth Snapping:** The system uses the formula `1.0 - exp(-snap_speed * delta)` for snapping. This ensures the "feel" of the movement remains consistent regardless of the game's framerate.
 - **Process Mode:** Hyprcore is set to `PROCESS_MODE_ALWAYS` so it can handle world rotation even while the game tree is paused.
 - **Hierarchy:** The player (Cubic) should be a child of the `Level` node, so it rotates together with the world automatically. Hyprcore also includes a fallback that manually converts positions if Cubic is ever placed outside the `Level` node.
 - **`get_grid_map()` limitation:** Currently finds only the first GridMap named `"GridMap"` under `Level Node`. If you add multiple GridMaps in the future, the safe spawn probe may need to switch to a physics raycast approach instead.

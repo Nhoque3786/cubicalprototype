@@ -19,6 +19,7 @@ signal respawned
 @export var gravity: float = 24.0
 @export var jump_delay: float = 0.03
 @export var coyote_time: float = 0.15
+@export var jump_buffer_time: float = 0.12
 
 @export_group("Visuals")
 @export var animated_sprite: AnimatedSprite3D
@@ -34,6 +35,7 @@ var current_state: State = State.IDLE
 var movement: PlayerMovement
 var rip: PlayerRIP
 var animator: PlayerAnimator
+var ghost: PlayerGhost
 var max_fall_speed: float = 0.0
 
 func _ready() -> void:
@@ -70,6 +72,17 @@ func _ready() -> void:
 		rip.name = "PlayerRIP"
 		add_child(rip)
 
+	# If no Ghost component exists, try to find it or create it
+	ghost = find_child("PlayerGhost", true, false) as PlayerGhost
+	if ghost == null:
+		ghost = PlayerGhost.new()
+		ghost.name = "PlayerGhost"
+		add_child(ghost)
+
+	# Keep the collision box world-aligned: depth (thin axis) always faces the
+	# camera, regardless of how the level is rotated underneath us.
+	_align_to_world()
+
 func _physics_process(delta: float) -> void:
 	if rip.is_dead():
 		return
@@ -82,6 +95,7 @@ func _physics_process(delta: float) -> void:
 	var was_on_floor: bool = is_on_floor()
 
 	movement.update_coyote_time(delta)
+	movement.update_jump_buffer(delta)
 
 	var input_h: float = Input.get_axis(&"move_left", &"move_right")
 	var did_jump: bool = false
@@ -137,5 +151,13 @@ func _update_state(h_dir: Vector3) -> void:
 			current_state = State.IDLE
 
 func _on_rotation_finished() -> void:
+	# The level (our parent) just spun; cancel the inherited rotation so the
+	# thin side of the collision box keeps facing the camera.
+	_align_to_world()
 	if hyprcore:
-		hyprcore.snap_to_grid(self)
+		hyprcore.snap_to_grid(self, true)
+
+# Force the body upright/world-aligned. Position still follows the level (so Cubic
+# arcs along with the spin), but the collider never rotates into the depth axis.
+func _align_to_world() -> void:
+	global_rotation = Vector3.ZERO
