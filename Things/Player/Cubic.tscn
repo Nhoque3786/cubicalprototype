@@ -248,7 +248,7 @@ animations = [{
 }]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_10aga"]
-size = Vector3(0.50051576, 0.5633057, 0.5008667)
+size = Vector3(0.50051576, 0.5633057, 0.14)
 
 [node name="Cubic" type="CharacterBody3D" unique_id=1993453551]
 script = ExtResource("1_gliux")
