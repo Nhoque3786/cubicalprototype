@@ -33,7 +33,6 @@ mesh = SubResource("BoxMesh_white")
 shape = SubResource("BoxShape_common")
 
 [node name="RedBlock" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
 mesh = SubResource("BoxMesh_red")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="RedBlock"]
@@ -42,7 +41,6 @@ mesh = SubResource("BoxMesh_red")
 shape = SubResource("BoxShape_common")
 
 [node name="GreenBlock" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
 mesh = SubResource("BoxMesh_green")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="GreenBlock"]
@@ -51,7 +49,6 @@ mesh = SubResource("BoxMesh_green")
 shape = SubResource("BoxShape_common")
 
 [node name="BlueBlock" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 0)
 mesh = SubResource("BoxMesh_blue")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="BlueBlock"]
