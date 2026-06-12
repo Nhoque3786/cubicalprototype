@@ -28,7 +28,7 @@ func update_animation(
 	fall_speed: float,
 	delta: float
 ) -> void:
-	if not animated_sprite: return
+	if not animated_sprite or not animated_sprite.sprite_frames: return
 
 	_update_blink_timer(delta)
 
