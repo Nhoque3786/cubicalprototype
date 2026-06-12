@@ -12,6 +12,12 @@ var _is_dead: bool = false
 
 func _ready() -> void:
 	player = get_parent() as Player
+	var spawn: Variant = _compute_safe_position()
+	if spawn != null:
+		_last_safe_position = spawn
+		if player.hyprcore != null:
+			_last_safe_side = player.hyprcore.current_side
+		_has_safe_position = true
 
 func _get_level_node() -> Node3D:
 	if player.hyprcore != null:
@@ -102,7 +108,7 @@ func trigger_death() -> void:
 	_play_death_sequence()
 
 func _play_death_sequence() -> void:
-	if player.animated_sprite and player.animated_sprite.sprite_frames.has_animation(&"death_fall"):
+	if player.animated_sprite and player.animated_sprite.sprite_frames and player.animated_sprite.sprite_frames.has_animation(&"death_fall"):
 		player.animated_sprite.speed_scale = 1.0
 		player.animated_sprite.play(&"death_fall")
 		
