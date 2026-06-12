@@ -2,6 +2,13 @@
 
 Hyprcore is the central system responsible for managing the "2.5D" perspective of Cubical. It enables a 2D gameplay experience within a 3D environment by handling world rotation, grid snapping, and safe spawn tracking.
 
+> **Architecture:** Hyprcore is split across three scripts.
+> - **`Hyprcore.gd`** (`class_name Hyprcore`) — the node you attach to your world root. Owns shared state, tuning, orientation flags, the public API, and shared helpers; delegates the heavy lifting to the two modules below.
+> - **`Hyprcube.gd`** (`class_name Hyprcube`) — stateless world-rotation module. Drives the tweened 90-degree spins via `Hyprcube.rotate_world(core)`.
+> - **`Hyprsnap.gd`** (`class_name Hyprsnap`) — stateless grid/depth snapping module. Holds the heavy depth-search math via `Hyprsnap.snap_to_grid(core, body, ...)`.
+>
+> Both modules operate on a `Hyprcore` instance passed to them, so all public calls still go through the `Hyprcore` node (e.g. `hyprcore.snap_to_grid(...)`).
+
 ## Core Features
 
 ### 1. HyprCube (World Rotation)
