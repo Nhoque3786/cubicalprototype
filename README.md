@@ -41,6 +41,6 @@ Mostly, *Open Source* Software!
  - Polytron, for just making FEZ, and somehow making my hyperfocus on cubes even more intense lmao
 
 ## AI Usage Note
-You might notice some AI agents in the contributor list. I use tools like **Junie** or **Gemini CLI** as "rubber duckies", mostly for brainstorming math, figuring out Godot's different functions or helping me fix bugs when I'm stuck on something, which is kind of a rare occasion
+You might notice some AI agents in the contributor list. I use tools like **Junie** as "rubber duckies", mostly for brainstorming math, figuring out Godot's different functions or helping me fix bugs when I'm stuck on something, which is kind of a rare occasion
 
 **100% of this project is made by humans.** All the art, sound, and core mechanics are my own. The AI is a tool for learning and efficiency, not a replacement for my own creativity or coding skills. I'm here to make something I was dreaming about for years, not to let AI do everything for me, that would be a s*itty move.
