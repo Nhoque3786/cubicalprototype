@@ -5,7 +5,9 @@ class_name Player
 
 enum State { IDLE, MOVING, AIR, ROTATING, CLIMBING, GRABBING, DEAD }
 
+@warning_ignore("unused_signal")
 signal died
+@warning_ignore("unused_signal")
 signal respawned
 
 @export_group("References")
@@ -120,13 +122,13 @@ func _physics_process(delta: float) -> void:
 
 	rip.update_safe_position(is_on_floor_now, delta)
 
-	# Optimization: Only snap if we are moving or if we just landed.
 	var is_moving: bool = velocity.length_squared() > 0.01
 	if hyprcore and not hyprcore.is_rotating:
-		if is_moving or is_on_floor_now or did_jump:
+		if is_moving or just_landed or did_jump:
 			hyprcore.snap_to_grid(self)
 
 	if animator:
+		animator.reference_walk_speed = speed
 		var h_vel: float = velocity.dot(h_dir)
 		animator.update_animation(h_vel, velocity.y, is_on_floor_now, input_h, did_jump, just_landed, max_fall_speed, delta)
 

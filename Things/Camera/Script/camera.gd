@@ -14,16 +14,23 @@ func _ready() -> void:
 	near = 0.1
 
 	if target == null:
-		print("No camera target, focusing on origin instead!")
+		push_warning("Camera has no target assigned; keeping scene transform.")
 		return
-	
+
 	_update_camera_pos(0.0)
-	look_at(target.global_position, Vector3.UP)
-		
+	_align_rotation()
+
 func _process(delta: float) -> void:
 	if target == null:
 		return
 	_update_camera_pos(delta)
+	_align_rotation()
+
+func _align_rotation() -> void:
+	var rad: float = deg_to_rad(angle)
+	var forward: Vector3 = Vector3(sin(rad), 0, cos(rad))
+	# Aponta a câmera sempre na direção de profundidade fixa (perpendicular ao plano)
+	look_at(global_position - forward, Vector3.UP)
 
 func _update_camera_pos(delta: float) -> void:
 	var rad: float = deg_to_rad(angle)
@@ -42,4 +49,3 @@ func _update_camera_pos(delta: float) -> void:
 		global_position = global_position.lerp(target_pos, 1.0 - exp(-smooth_speed * delta))
 	else:
 		global_position = target_pos
-

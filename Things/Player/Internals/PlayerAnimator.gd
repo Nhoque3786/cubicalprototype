@@ -10,6 +10,7 @@ class_name PlayerAnimator
 @export var soft_land_speed: float = 7.0
 @export var hard_land_speed: float = 14.0
 @export var stretch_velocity_threshold: float = 5.0
+@export var reference_walk_speed: float = 6.0
 
 # Blink system
 @export var blink_interval_min: float = 2.0
@@ -84,8 +85,7 @@ func update_animation(
 
 	if horizontal_speed > 0.1:
 		animated_sprite.play(_get_blink_variant(&"walk", &"walk_blink"))
-		# Adjust animation speed based on actual movement speed (default speed 6.0)
-		animated_sprite.speed_scale = (horizontal_speed / 6.0) * walk_speed_mult
+		animated_sprite.speed_scale = (horizontal_speed / max(reference_walk_speed, 0.001)) * walk_speed_mult
 	else:
 		animated_sprite.play(_get_blink_variant(&"default", &"default_blink"))
 		animated_sprite.speed_scale = 1.0
