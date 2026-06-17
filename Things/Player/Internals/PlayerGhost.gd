@@ -61,8 +61,9 @@ func _is_occluded() -> bool:
 
 	var space_state: PhysicsDirectSpaceState3D = player.get_world_3d().direct_space_state
 	var target: Vector3 = player.global_position + Vector3.UP * aim_height
-	var query := PhysicsRayQueryParameters3D.create(cam.global_position, target, occluder_mask)
+	var screen_pos: Vector2 = cam.unproject_position(target)
+	var ray_origin: Vector3 = cam.project_ray_origin(screen_pos)
+	var query := PhysicsRayQueryParameters3D.create(ray_origin, target, occluder_mask)
 	query.exclude = [player.get_rid()]
 
-	# If the ray from the camera hits anything before reaching Cubic, he's hidden.
 	return not space_state.intersect_ray(query).is_empty()

@@ -51,7 +51,7 @@ func _ready() -> void:
 		grid_map = level_node.find_child("GridMap", true, false) as GridMap
 
 func _unhandled_input(event: InputEvent) -> void:
-	if is_rotating:
+	if is_rotating or level_node == null:
 		return
 
 	var should_rotate: bool = false

@@ -13,7 +13,6 @@ ambient_light_color = Color(1, 1, 1, 1)
 [node name="World" type="Node3D" unique_id=916488818 node_paths=PackedStringArray("level_node")]
 script = ExtResource("1_tlmg4")
 level_node = NodePath("Level")
-safe_cell_ids = Array[int]([1, 0])
 
 [node name="Level" type="Node3D" parent="." unique_id=1681891380]
 
