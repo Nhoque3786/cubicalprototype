@@ -12,6 +12,7 @@ signal rotation_finished()
 @export var transition_type: Tween.TransitionType = Tween.TRANS_CUBIC
 @export var ease_type: Tween.EaseType = Tween.EASE_IN_OUT
 var is_rotating: bool = false
+var _cached_camera: Camera3D = null
 var target_rotation_y_deg: float = 0.0
 
 @export_group("Snapping")
@@ -100,11 +101,17 @@ func get_player() -> CharacterBody3D:
 		return null
 	return get_tree().get_first_node_in_group(&"player") as CharacterBody3D
 
-func get_depth_direction() -> Vector3:
+func get_camera() -> Camera3D:
+	if _cached_camera != null and _cached_camera.is_inside_tree():
+		return _cached_camera
 	var viewport := get_viewport()
 	if viewport == null:
-		return Vector3.BACK
-	var camera: Camera3D = viewport.get_camera_3d()
+		return null
+	_cached_camera = viewport.get_camera_3d()
+	return _cached_camera
+
+func get_depth_direction() -> Vector3:
+	var camera: Camera3D = get_camera()
 	if camera == null:
 		return Vector3.BACK
 
@@ -116,10 +123,7 @@ func get_depth_direction() -> Vector3:
 	return camera_depth.normalized()
 
 func get_screen_horizontal_direction() -> Vector3:
-	var viewport := get_viewport()
-	if viewport == null:
-		return Vector3.RIGHT
-	var camera: Camera3D = viewport.get_camera_3d()
+	var camera: Camera3D = get_camera()
 	if camera == null:
 		return Vector3.RIGHT
 

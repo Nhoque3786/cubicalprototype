@@ -14,7 +14,11 @@ func _ready() -> void:
 	player = get_parent() as Player
 
 func get_screen_horizontal_dir() -> Vector3:
-	var cam: Camera3D = player.get_viewport().get_camera_3d()
+	var cam: Camera3D = null
+	if player.hyprcore != null:
+		cam = player.hyprcore.get_camera()
+	if cam == null:
+		cam = player.get_viewport().get_camera_3d()
 	if not cam: return Vector3.RIGHT
 
 	var screen_right: Vector3 = cam.global_transform.basis.x
@@ -85,3 +89,7 @@ func process_jump(delta: float) -> bool:
 			# We don't reset buffer here, we let it be consumed by is_preparing_jump
 			
 	return did_jump
+
+func handle_variable_jump() -> void:
+	if Input.is_action_just_released(&"jump") and player.velocity.y > 0.0:
+		player.velocity.y *= player.jump_cut_multiplier

@@ -153,13 +153,15 @@ static func _is_better_depth_candidate(
 	if not has_candidate:
 		return true
 
-	if not is_equal_approx(score, best_score):
-		return score < best_score
-
 	match priority:
 		Hyprcore.DepthPriority.FRONTMOST:
-			return depth_position > best_depth_position
+			if depth_position > best_depth_position + 0.1: return true
+			if depth_position < best_depth_position - 0.1: return false
 		Hyprcore.DepthPriority.BEHINDMOST:
-			return depth_position < best_depth_position
+			if depth_position < best_depth_position - 0.1: return true
+			if depth_position > best_depth_position + 0.1: return false
 		_:
-			return depth_distance < best_depth_distance
+			if depth_distance < best_depth_distance - 0.1: return true
+			if depth_distance > best_depth_distance + 0.1: return false
+
+	return score < best_score
