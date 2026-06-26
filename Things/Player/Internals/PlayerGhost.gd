@@ -13,6 +13,9 @@ var ghost: AnimatedSprite3D
 @export_flags_3d_physics var occluder_mask: int = 1
 # Aim the occlusion ray a touch above the origin so it targets Cubic's body, not his feet.
 @export var aim_height: float = 0.2
+# Interval between occlusion raycasts (in seconds) to limit frequency.
+@export var raycast_interval: float = 0.05
+var _time_since_last_raycast: float = 0.0
 
 func _ready() -> void:
 	player = get_parent() as Player
@@ -42,8 +45,8 @@ func _build_ghost() -> void:
 	# Parent to the real sprite so it inherits position/offset automatically.
 	source_sprite.add_child(ghost)
 
-# Use _process (after physics) so the silhouette matches the frame actually drawn.
-func _process(_delta: float) -> void:
+# Use _physics_process with an interval to limit occlusion raycasting overhead.
+func _physics_process(delta: float) -> void:
 	if ghost == null or source_sprite == null:
 		return
 
@@ -52,10 +55,17 @@ func _process(_delta: float) -> void:
 	ghost.frame = source_sprite.frame
 	ghost.flip_h = source_sprite.flip_h
 
-	ghost.visible = _is_occluded()
+	_time_since_last_raycast += delta
+	if _time_since_last_raycast >= raycast_interval:
+		_time_since_last_raycast = 0.0
+		ghost.visible = _is_occluded()
 
 func _is_occluded() -> bool:
-	var cam: Camera3D = player.get_viewport().get_camera_3d()
+	var cam: Camera3D = null
+	if player.hyprcore != null:
+		cam = player.hyprcore.get_camera()
+	if cam == null:
+		cam = player.get_viewport().get_camera_3d()
 	if cam == null:
 		return false
 

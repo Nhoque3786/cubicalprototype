@@ -22,6 +22,7 @@ signal respawned
 @export var jump_delay: float = 0.03
 @export var coyote_time: float = 0.15
 @export var jump_buffer_time: float = 0.12
+@export var jump_cut_multiplier: float = 0.4
 
 @export_group("Visuals")
 @export var animated_sprite: AnimatedSprite3D
@@ -112,6 +113,7 @@ func _physics_process(delta: float) -> void:
 			movement.handle_horizontal_movement(h_dir, input_h, delta)
 			movement.apply_gravity(delta)
 			did_jump = movement.process_jump(delta)
+			movement.handle_variable_jump()
 
 	move_and_slide()
 	var is_on_floor_now: bool = is_on_floor()

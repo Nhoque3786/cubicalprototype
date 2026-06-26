@@ -111,17 +111,18 @@ func _play_death_sequence() -> void:
 	if player.animated_sprite and player.animated_sprite.sprite_frames and player.animated_sprite.sprite_frames.has_animation(&"death_fall"):
 		player.animated_sprite.speed_scale = 1.0
 		player.animated_sprite.play(&"death_fall")
-		
-		var finished := [false]
-		var on_finished := func(): finished[0] = true
-		player.animated_sprite.animation_finished.connect(on_finished, CONNECT_ONE_SHOT)
-		
-		var start_time := Time.get_ticks_msec()
-		while not finished[0] and (Time.get_ticks_msec() - start_time) < 1500:
+
+		var done := [false]
+		var mark_done := func(): done[0] = true
+
+		player.animated_sprite.animation_finished.connect(mark_done, CONNECT_ONE_SHOT)
+		get_tree().create_timer(1.5).timeout.connect(mark_done, CONNECT_ONE_SHOT)
+
+		while not done[0]:
 			await get_tree().process_frame
-			
-		if player.animated_sprite.animation_finished.is_connected(on_finished):
-			player.animated_sprite.animation_finished.disconnect(on_finished)
+
+		if player.animated_sprite.animation_finished.is_connected(mark_done):
+			player.animated_sprite.animation_finished.disconnect(mark_done)
 
 	await get_tree().create_timer(player.death_freeze_duration).timeout
 
