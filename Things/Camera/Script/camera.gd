@@ -37,15 +37,24 @@ func _update_camera_pos(delta: float) -> void:
 	var forward: Vector3 = Vector3(sin(rad), 0, cos(rad))
 	var right: Vector3 = Vector3(forward.z, 0, -forward.x)
 
-	var target_horiz_dist: float = right.dot(target.global_position)
-	var target_vert_dist: float = target.global_position.y + height
+	# Strip the target's depth component entirely so the camera
+	# never shifts along the viewing axis when Cubic snaps to a
+	# different Z-lane.
+	var target_world: Vector3 = target.global_position
+	var depth_component: float = forward.dot(target_world)
+	var flat_target: Vector3 = target_world - forward * depth_component
 
-	var target_pos: Vector3 = (right * target_horiz_dist) + (Vector3.UP * target_vert_dist)
-
+	var target_pos: Vector3 = flat_target + Vector3.UP * height
 	target_pos += forward * radius
 
-
 	if delta > 0 and smooth_speed > 0:
-		global_position = global_position.lerp(target_pos, 1.0 - exp(-smooth_speed * delta))
+		# Lerp only the non-depth axes; depth is always exactly radius.
+		var t: float = 1.0 - exp(-smooth_speed * delta)
+		var new_pos: Vector3 = global_position.lerp(target_pos, t)
+		# Force the depth axis to the exact target value (no lerp drift).
+		var depth_amount: float = forward.dot(new_pos)
+		var target_depth: float = forward.dot(target_pos)
+		new_pos += forward * (target_depth - depth_amount)
+		global_position = new_pos
 	else:
 		global_position = target_pos
