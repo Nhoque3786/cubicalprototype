@@ -30,8 +30,13 @@ func _ready() -> void:
 	_build_ghost()
 
 func _build_ghost() -> void:
-	ghost = AnimatedSprite3D.new()
-	ghost.name = "Ghost"
+	if source_sprite.has_node("Ghost"):
+		ghost = source_sprite.get_node("Ghost") as AnimatedSprite3D
+	else:
+		ghost = AnimatedSprite3D.new()
+		ghost.name = "Ghost"
+		source_sprite.add_child(ghost)
+
 	# Share the same frames so the silhouette always matches Cubic's pose.
 	ghost.sprite_frames = source_sprite.sprite_frames
 	ghost.pixel_size = source_sprite.pixel_size
@@ -42,8 +47,6 @@ func _build_ghost() -> void:
 	ghost.render_priority = 100
 	ghost.modulate = tint
 	ghost.visible = false
-	# Parent to the real sprite so it inherits position/offset automatically.
-	source_sprite.add_child(ghost)
 
 # Use _physics_process with an interval to limit occlusion raycasting overhead.
 func _physics_process(delta: float) -> void:
