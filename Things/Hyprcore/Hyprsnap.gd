@@ -4,7 +4,11 @@
 # from the rotation code (Hyprcube) so the heavy depth-search math stands alone.
 class_name Hyprsnap
 
-# assume_grounded forces grounded depth priority even when is_on_floor() is stale
+# Snaps the body to the nearest valid 2D plane.
+# This is the secret sauce: it first tries to snap to a gridmap "lane", and if
+# that fails, it falls back to raycasting against level geometry.
+#
+# `assume_grounded` forces grounded depth priority even when is_on_floor() is stale
 # (e.g. right after a respawn teleport), so we don't pick an airborne Z and float.
 static func snap_to_grid(core: Hyprcore, body: CharacterBody3D, force_instant: bool = false, assume_grounded: bool = false) -> void:
 	if body == null or not body.is_inside_tree():
@@ -19,11 +23,13 @@ static func snap_to_grid(core: Hyprcore, body: CharacterBody3D, force_instant: b
 	var target_pos: Vector3 = origin
 	var has_target: bool = false
 
+	# First, try to find a valid "lane" on the gridmap.
 	var grid_snap: Variant = _get_grid_snap_position(core, body, origin, depth_direction, horizontal_direction, assume_grounded)
 	if grid_snap != null:
 		target_pos = origin + depth_direction * (grid_snap as float)
 		has_target = true
 	else:
+		# If grid fails, fall back to raycasting against any solid geometry.
 		var hits: Array[Dictionary] = []
 
 		for v_off in core.vertical_offsets:
@@ -62,6 +68,7 @@ static func snap_to_grid(core: Hyprcore, body: CharacterBody3D, force_instant: b
 	if force_instant or core.snap_speed <= 0.0:
 		body.global_position = target_pos
 	else:
+		# Use a frame-rate independent lerp for a smooth, snappy feel.
 		var current_depth: float = depth_direction.dot(body.global_position)
 		var target_depth: float = depth_direction.dot(target_pos)
 		var new_depth: float = lerp(current_depth, target_depth, 1.0 - exp(-core.snap_speed * delta))
@@ -72,6 +79,8 @@ static func snap_to_grid(core: Hyprcore, body: CharacterBody3D, force_instant: b
 		body.global_position += depth_direction * (new_depth - current_depth)
 
 
+# Searches a volume around the player for the best grid cell to snap to.
+# "Best" is determined by a scoring system and the current depth priority.
 static func _get_grid_snap_position(core: Hyprcore, body: CharacterBody3D, origin: Vector3, depth_direction: Vector3, horizontal_direction: Vector3, assume_grounded: bool = false) -> Variant:
 	var active_grid: GridMap = core.get_grid_map()
 	if active_grid == null:
@@ -91,8 +100,8 @@ static func _get_grid_snap_position(core: Hyprcore, body: CharacterBody3D, origi
 	var r_v: int = int(ceil(core.max_floor_snap_height / cell_size.y)) + 2
 	var r_d: int = core.search_depth_radius
 
-	# Map depth and horizontal search ranges to the correct local axes based on 
-	# which axis (X or Z) aligns with the depth direction after rotation.
+	# This is the clever bit: check which grid axis (X or Z) is currently aligned
+	# with the camera's depth, and adjust our search radius to be wide or deep.
 	var x_is_depth: bool = abs(local_depth_dir.x) > abs(local_depth_dir.z)
 	var r_x: int = r_d if x_is_depth else r_h
 	var r_z: int = r_h if x_is_depth else r_d
@@ -125,6 +134,7 @@ static func _get_grid_snap_position(core: Hyprcore, body: CharacterBody3D, origi
 				var depth_distance: float = abs(depth_offset)
 
 				var depth_position: float = local_depth_dir.dot(local_cell_center)
+				# Score prioritizes closeness on the 2D plane (horizontal + vertical).
 				var score: float = horizontal_distance * 10.0 + floor_distance
 
 				if _is_better_depth_candidate(priority, score, depth_distance, depth_position, best_score, best_depth_distance, best_depth_position, has_candidate):
@@ -140,6 +150,9 @@ static func _get_grid_snap_position(core: Hyprcore, body: CharacterBody3D, origi
 	return best_depth_offset
 
 
+# Decides if a new cell is a better snap target than our current best.
+# It strictly enforces the depth priority (front, back, nearest) first, and
+# only uses the 2D proximity score as a tie-breaker.
 static func _is_better_depth_candidate(
 	priority: Hyprcore.DepthPriority,
 	score: float,
@@ -160,8 +173,9 @@ static func _is_better_depth_candidate(
 		Hyprcore.DepthPriority.BEHINDMOST:
 			if depth_position < best_depth_position - 0.1: return true
 			if depth_position > best_depth_position + 0.1: return false
-		_:
+		_: # NEAREST
 			if depth_distance < best_depth_distance - 0.1: return true
 			if depth_distance > best_depth_distance + 0.1: return false
 
+	# If candidates are in the same depth "lane", pick the one with the better score.
 	return score < best_score
