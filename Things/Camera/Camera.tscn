@@ -2,6 +2,15 @@
 
 [ext_resource type="Script" uid="uid://ma2fydjdph4i" path="res://Things/Camera/Script/camera.gd" id="1_6sa4p"]
 
-[node name="Camera" type="Camera3D" unique_id=13397179]
-projection = 1
+[node name="Camera" type="Node3D" unique_id=13397179]
 script = ExtResource("1_6sa4p")
+
+[node name="SpringArm3D" type="SpringArm3D" parent="."]
+spring_length = 8.0
+margin = 0.1
+
+[node name="ActualCamera" type="Camera3D" parent="SpringArm3D"]
+projection = 1
+size = 6.0
+near = 0.1
+far = 2000.0

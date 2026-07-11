@@ -1,60 +1,102 @@
-extends Camera3D
+extends Node3D
 
-@export var target : Node3D = null
-@export var angle : float = 0.0
-@export var radius : float = 5
-@export var height : float = 0.0
-@export var smooth_speed : float = 8.0
-#TODO: add camera controls with R Stick/WASD/Mouse
+@export_group("Tracking")
+@export var target: Node3D = null
+@export var height: float = 0.0
+@export var smooth_speed: float = 8.0
+@export var lock_depth: bool = true
+
+@export_group("Panning")
+@export var pan_speed: float = 16.0
+@export var pan_limit: float = 4.0
+@export var pan_return_speed: float = 4.0
+
+@export_group("Setup")
+@export var angle: float = 0.0
+@export var radius: float = 8.0
+@export var orthographic_size: float = 6.0
+
+@onready var spring_arm: SpringArm3D = $SpringArm3D
+@onready var actual_camera: Camera3D = $SpringArm3D/ActualCamera
+var pan_offset: Vector3 = Vector3.ZERO
+var locked_depth: float = 0.0
+
 func _ready() -> void:
 	process_mode = PROCESS_MODE_ALWAYS
-	set_projection(Camera3D.PROJECTION_ORTHOGONAL)
+	spring_arm.spring_length = radius
+	actual_camera.projection = Camera3D.PROJECTION_ORTHOGONAL
+	actual_camera.size = orthographic_size
 
-	far = 2000.0
-	near = 0.1
+	# Set the rig's rotation ONCE at the start. It will not change again.
+	self.rotation.y = deg_to_rad(angle)
 
 	if target == null:
-		push_warning("Camera has no target assigned; keeping scene transform.")
+		push_warning("Camera rig has no target assigned.")
 		return
 
-	_update_camera_pos(0.0)
-	_align_rotation()
+	locked_depth = _get_depth_axis().dot(target.global_position)
+
+	# Set initial position
+	_update_rig_pos(0.0)
 
 func _process(delta: float) -> void:
 	if target == null:
 		return
-	_update_camera_pos(delta)
-	_align_rotation()
+	_handle_panning(delta)
 
-func _align_rotation() -> void:
-	var rad: float = deg_to_rad(angle)
-	var forward: Vector3 = Vector3(sin(rad), 0, cos(rad))
-	# Aponta a câmera sempre na direção de profundidade fixa (perpendicular ao plano)
-	look_at(global_position - forward, Vector3.UP)
+	if Input.is_action_just_pressed("cam_focus"):
+		pan_offset = Vector3.ZERO
 
-func _update_camera_pos(delta: float) -> void:
-	var rad: float = deg_to_rad(angle)
-	var forward: Vector3 = Vector3(sin(rad), 0, cos(rad))
-	var right: Vector3 = Vector3(forward.z, 0, -forward.x)
+	_update_rig_pos(delta)
 
-	# Strip the target's depth component entirely so the camera
-	# never shifts along the viewing axis when Cubic snaps to a
-	# different Z-lane.
+func _handle_panning(delta: float) -> void:
+	# Get input from actions defined in Project > Project Settings > Input Map
+	var pan_input := Input.get_vector("cam_left", "cam_right", "cam_up", "cam_down")
+
+	# Update the pan_offset based on input
+	# We use the camera's own basis vectors to ensure "right" is always screen-right.
+	var screen_right := global_transform.basis.x
+	var screen_up := Vector3.UP
+	pan_offset += screen_right * pan_input.x * pan_speed * delta
+	pan_offset += screen_up * -pan_input.y * pan_speed * delta
+
+	if lock_depth:
+		var depth_axis := _get_depth_axis()
+		pan_offset -= depth_axis * depth_axis.dot(pan_offset)
+
+	# Clamp the offset to a maximum distance from the player
+	pan_offset = pan_offset.limit_length(pan_limit)
+
+	# If cubic moves, return the focus to him
+	var move_actions: Array[StringName] = [&"move_left", &"move_right", &"jump"]
+	if move_actions.any(Input.is_action_just_pressed):
+		pan_offset = Vector3.ZERO
+
+func _update_rig_pos(delta: float) -> void:
 	var target_world: Vector3 = target.global_position
-	var depth_component: float = forward.dot(target_world)
-	var flat_target: Vector3 = target_world - forward * depth_component
 
-	var target_pos: Vector3 = flat_target + Vector3.UP * height
-	target_pos += forward * radius
+	if lock_depth:
+		var depth_axis := _get_depth_axis()
+		target_world += depth_axis * (locked_depth - depth_axis.dot(target_world))
 
+	# The target position for our rig is the flattened player position,
+	# PLUS our new panning offset.
+	var target_pos: Vector3 = target_world + Vector3.UP * height + pan_offset
+
+	# Smoothly move the entire rig towards the target position.
 	if delta > 0 and smooth_speed > 0:
-		# Lerp only the non-depth axes; depth is always exactly radius.
 		var t: float = 1.0 - exp(-smooth_speed * delta)
-		var new_pos: Vector3 = global_position.lerp(target_pos, t)
-		# Force the depth axis to the exact target value (no lerp drift).
-		var depth_amount: float = forward.dot(new_pos)
-		var target_depth: float = forward.dot(target_pos)
-		new_pos += forward * (target_depth - depth_amount)
-		global_position = new_pos
+		global_position = global_position.lerp(target_pos, t)
 	else:
 		global_position = target_pos
+
+func _get_depth_axis() -> Vector3:
+	var depth_axis := global_transform.basis.z
+	depth_axis.y = 0.0
+
+	if depth_axis.is_zero_approx():
+		return Vector3.BACK
+
+	return depth_axis.normalized()
+
+
