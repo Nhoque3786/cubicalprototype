@@ -33,6 +33,5 @@ environment = SubResource("Environment_18icj")
 
 [node name="Camera" parent="." unique_id=13397179 node_paths=PackedStringArray("target") instance=ExtResource("4_18icj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 7)
-size = 6.0
 target = NodePath("../Level/Cubic")
 radius = 16.0
