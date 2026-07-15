@@ -16,6 +16,7 @@ var ghost: AnimatedSprite3D
 # Interval between occlusion raycasts (in seconds) to limit frequency.
 @export var raycast_interval: float = 0.05
 var _time_since_last_raycast: float = 0.0
+var _ray_query: PhysicsRayQueryParameters3D
 
 func _ready() -> void:
 	player = get_parent() as Player
@@ -28,6 +29,8 @@ func _ready() -> void:
 		push_warning("PlayerGhost: no AnimatedSprite3D found on the player; ghost disabled.")
 		return
 	_build_ghost()
+	_ray_query = PhysicsRayQueryParameters3D.create(Vector3.ZERO, Vector3.ZERO, occluder_mask)
+	_ray_query.exclude = [player.get_rid()]
 
 func _build_ghost() -> void:
 	if source_sprite.has_node("Ghost"):
@@ -53,15 +56,16 @@ func _physics_process(delta: float) -> void:
 	if ghost == null or source_sprite == null:
 		return
 
-	# Mirror Cubic's current pose.
-	ghost.animation = source_sprite.animation
-	ghost.frame = source_sprite.frame
-	ghost.flip_h = source_sprite.flip_h
-
 	_time_since_last_raycast += delta
 	if _time_since_last_raycast >= raycast_interval:
 		_time_since_last_raycast = 0.0
 		ghost.visible = _is_occluded()
+
+	# Mirror Cubic's current pose ONLY if visible.
+	if ghost.visible:
+		ghost.animation = source_sprite.animation
+		ghost.frame = source_sprite.frame
+		ghost.flip_h = source_sprite.flip_h
 
 func _is_occluded() -> bool:
 	var cam: Camera3D = null
@@ -76,7 +80,8 @@ func _is_occluded() -> bool:
 	var target: Vector3 = player.global_position + Vector3.UP * aim_height
 	var screen_pos: Vector2 = cam.unproject_position(target)
 	var ray_origin: Vector3 = cam.project_ray_origin(screen_pos)
-	var query := PhysicsRayQueryParameters3D.create(ray_origin, target, occluder_mask)
-	query.exclude = [player.get_rid()]
 
-	return not space_state.intersect_ray(query).is_empty()
+	_ray_query.from = ray_origin
+	_ray_query.to = target
+
+	return not space_state.intersect_ray(_ray_query).is_empty()

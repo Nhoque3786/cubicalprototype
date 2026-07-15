@@ -31,14 +31,15 @@ static func snap_to_grid(core: Hyprcore, body: CharacterBody3D, force_instant: b
 	else:
 		# If grid fails, fall back to raycasting against any solid geometry.
 		var hits: Array[Dictionary] = []
+		var query := PhysicsRayQueryParameters3D.create(origin, origin, core.collision_mask)
+		query.exclude = [body.get_rid()]
+		query.hit_from_inside = true
 
 		for v_off in core.vertical_offsets:
 			var start: Vector3 = origin + Vector3(0, v_off, 0)
 			for dir in [1.0, -1.0]:
-				var target: Vector3 = start + depth_direction * dir * core.max_distance
-				var query: PhysicsRayQueryParameters3D = PhysicsRayQueryParameters3D.create(start, target, core.collision_mask)
-				query.exclude = [body.get_rid()]
-				query.hit_from_inside = true
+				query.from = start
+				query.to = start + depth_direction * dir * core.max_distance
 
 				var result: Dictionary = space_state.intersect_ray(query)
 				if not result.is_empty():
@@ -100,11 +101,10 @@ static func _get_grid_snap_position(core: Hyprcore, body: CharacterBody3D, origi
 	var r_v: int = int(ceil(core.max_floor_snap_height / cell_size.y)) + 2
 	var r_d: int = core.search_depth_radius
 
-	# This is the clever bit: check which grid axis (X or Z) is currently aligned
-	# with the camera's depth, and adjust our search radius to be wide or deep.
+	# Determine which grid axis (X or Z) is the depth axis.
 	var x_is_depth: bool = abs(local_depth_dir.x) > abs(local_depth_dir.z)
-	var r_x: int = r_d if x_is_depth else r_h
-	var r_z: int = r_h if x_is_depth else r_d
+	var depth_dir_sign: float = local_depth_dir.x if x_is_depth else local_depth_dir.z
+	var depth_center: int = center_cell.x if x_is_depth else center_cell.z
 
 	var best_depth_offset: float = 0.0
 	var best_score: float = INF
@@ -112,10 +112,34 @@ static func _get_grid_snap_position(core: Hyprcore, body: CharacterBody3D, origi
 	var best_depth_distance: float = INF
 	var has_candidate: bool = false
 
-	for x in range(center_cell.x - r_x, center_cell.x + r_x + 1):
+	# Build the order in which to visit depth slices, based on priority:
+	# - NEAREST:    center first, then expand outward (+1, -1, +2, -2, ...)
+	# - FRONTMOST:  start from the front and walk backward
+	# - BEHINDMOST: start from the back and walk forward (default in air)
+	var depth_order: Array[int] = []
+	if priority == Hyprcore.DepthPriority.NEAREST:
+		depth_order.append(depth_center)
+		for i in range(1, r_d + 1):
+			depth_order.append(depth_center + i)
+			depth_order.append(depth_center - i)
+	elif priority == Hyprcore.DepthPriority.FRONTMOST:
+		var front: int = depth_center + r_d if depth_dir_sign >= 0.0 else depth_center - r_d
+		var step: int  = -1             if depth_dir_sign >= 0.0 else 1
+		for i in range(2 * r_d + 1):
+			depth_order.append(front + i * step)
+	else: # BEHINDMOST
+		var back: int = depth_center - r_d if depth_dir_sign >= 0.0 else depth_center + r_d
+		var step: int = 1              if depth_dir_sign >= 0.0 else -1
+		for i in range(2 * r_d + 1):
+			depth_order.append(back + i * step)
+
+	# Scan one depth slice at a time. Break the moment we find a valid candidate.
+	for d_val in depth_order:
 		for y in range(center_cell.y - r_v, center_cell.y + 2):
-			for z in range(center_cell.z - r_z, center_cell.z + r_z + 1):
-				var cell := Vector3i(x, y, z)
+			for h in range(-r_h, r_h + 1):
+				var cell: Vector3i = Vector3i(d_val, y, center_cell.z + h) if x_is_depth \
+								else Vector3i(center_cell.x + h, y, d_val)
+
 				if active_grid.get_cell_item(cell) == GridMap.INVALID_CELL_ITEM:
 					continue
 
@@ -132,7 +156,6 @@ static func _get_grid_snap_position(core: Hyprcore, body: CharacterBody3D, origi
 
 				var depth_offset: float = local_depth_dir.dot(local_cell_center - local_origin)
 				var depth_distance: float = abs(depth_offset)
-
 				var depth_position: float = local_depth_dir.dot(local_cell_center)
 				# Score prioritizes closeness on the 2D plane (horizontal + vertical).
 				var score: float = horizontal_distance * 10.0 + floor_distance
@@ -143,6 +166,9 @@ static func _get_grid_snap_position(core: Hyprcore, body: CharacterBody3D, origi
 					best_depth_distance = depth_distance
 					best_depth_offset = depth_offset
 					has_candidate = true
+
+		if has_candidate:
+			break # Early-out: found a valid slice, no need to search further!
 
 	if not has_candidate:
 		return null
@@ -162,7 +188,7 @@ static func _is_better_depth_candidate(
 	best_depth_distance: float,
 	best_depth_position: float,
 	has_candidate: bool
-) -> bool:
+	) -> bool:
 	if not has_candidate:
 		return true
 
