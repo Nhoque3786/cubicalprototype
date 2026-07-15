@@ -24,6 +24,7 @@ var locked_depth: float = 0.0
 func _ready() -> void:
 	process_mode = PROCESS_MODE_ALWAYS
 	spring_arm.spring_length = radius
+	spring_arm.collision_mask = 0
 	actual_camera.projection = Camera3D.PROJECTION_ORTHOGONAL
 	actual_camera.size = orthographic_size
 
@@ -68,8 +69,7 @@ func _handle_panning(delta: float) -> void:
 	pan_offset = pan_offset.limit_length(pan_limit)
 
 	# If cubic moves, return the focus to him
-	var move_actions: Array[StringName] = [&"move_left", &"move_right", &"jump"]
-	if move_actions.any(Input.is_action_just_pressed):
+	if Input.is_action_just_pressed(&"move_left") or Input.is_action_just_pressed(&"move_right") or Input.is_action_just_pressed(&"jump"):
 		pan_offset = Vector3.ZERO
 
 func _update_rig_pos(delta: float) -> void:
