@@ -32,7 +32,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.50627744, 1.4511102, 0.4910
 environment = SubResource("Environment_18icj")
 
 [node name="Camera" parent="." unique_id=13397179 node_paths=PackedStringArray("target") instance=ExtResource("4_c6uyu")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 7)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 11)
 target = NodePath("../Level/Cubic")
 radius = 16.0
-orthographic_size = 6.0
