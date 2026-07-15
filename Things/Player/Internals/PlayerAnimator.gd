@@ -19,6 +19,25 @@ var _blink_timer: float = 4.0
 var _is_blinking: bool = false
 const _BLINK_DURATION: float = 0.6
 
+var _cache_initialized: bool = false
+var _has_stretch_anim: bool = false
+var _has_squish_anim: bool = false
+var _has_fall_anim: bool = false
+var _has_walk_blink_anim: bool = false
+var _has_default_blink_anim: bool = false
+
+func _ready() -> void:
+	_cache_animations()
+
+func _cache_animations() -> void:
+	if animated_sprite and animated_sprite.sprite_frames:
+		_has_stretch_anim = animated_sprite.sprite_frames.has_animation(&"stretch")
+		_has_squish_anim = animated_sprite.sprite_frames.has_animation(&"squish")
+		_has_fall_anim = animated_sprite.sprite_frames.has_animation(&"fall")
+		_has_walk_blink_anim = animated_sprite.sprite_frames.has_animation(&"walk_blink")
+		_has_default_blink_anim = animated_sprite.sprite_frames.has_animation(&"default_blink")
+		_cache_initialized = true
+
 func update_animation(
 	h_vel: float,
 	v_vel: float,
@@ -30,6 +49,9 @@ func update_animation(
 	delta: float
 ) -> void:
 	if not animated_sprite or not animated_sprite.sprite_frames: return
+
+	if not _cache_initialized:
+		_cache_animations()
 
 	_update_blink_timer(delta)
 
@@ -67,13 +89,13 @@ func update_animation(
 
 		# Use stretch animation only for fast falling
 		if v_vel < -stretch_velocity_threshold:
-			if animated_sprite.sprite_frames.has_animation(&"stretch"):
+			if _has_stretch_anim:
 				animated_sprite.play(&"stretch")
-			elif animated_sprite.sprite_frames.has_animation(&"squish"):
+			elif _has_squish_anim:
 				animated_sprite.play(&"squish")
 		else:
 			# Near the apex of the jump or slow movement
-			if animated_sprite.sprite_frames.has_animation(&"fall"):
+			if _has_fall_anim:
 				animated_sprite.play(&"fall")
 			else:
 				animated_sprite.play(&"default")
@@ -100,6 +122,9 @@ func _update_blink_timer(delta: float) -> void:
 			_blink_timer = randf_range(blink_interval_min, blink_interval_max)
 
 func _get_blink_variant(base_anim: StringName, blink_anim: StringName) -> StringName:
-	if _is_blinking and animated_sprite.sprite_frames.has_animation(blink_anim):
-		return blink_anim
+	if _is_blinking:
+		if blink_anim == &"walk_blink" and _has_walk_blink_anim:
+			return blink_anim
+		elif blink_anim == &"default_blink" and _has_default_blink_anim:
+			return blink_anim
 	return base_anim

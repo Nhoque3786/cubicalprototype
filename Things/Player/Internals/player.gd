@@ -158,6 +158,8 @@ func _on_rotation_finished() -> void:
 	# The level (our parent) just spun; cancel the inherited rotation so the
 	# thin side of the collision box keeps facing the camera.
 	_align_to_world()
+	if movement:
+		movement.update_cached_directions()
 	if hyprcore:
 		hyprcore.snap_to_grid(self, true)
 

@@ -9,11 +9,16 @@ var coyote_timer: float = 0.0
 var jump_timer: float = 0.0
 var jump_buffer_timer: float = 0.0
 var is_preparing_jump: bool = false
+var _cached_h_dir: Vector3 = Vector3.ZERO
 
 func _ready() -> void:
 	player = get_parent() as Player
+	update_cached_directions()
 
-func get_screen_horizontal_dir() -> Vector3:
+func update_cached_directions() -> void:
+	_cached_h_dir = _compute_screen_horizontal_dir()
+
+func _compute_screen_horizontal_dir() -> Vector3:
 	var cam: Camera3D = null
 	if player.hyprcore != null:
 		cam = player.hyprcore.get_camera()
@@ -32,6 +37,11 @@ func get_screen_horizontal_dir() -> Vector3:
 		return local_x * sign(local_x.dot(screen_right))
 	else:
 		return local_z * sign(local_z.dot(screen_right))
+
+func get_screen_horizontal_dir() -> Vector3:
+	if _cached_h_dir == Vector3.ZERO:
+		update_cached_directions()
+	return _cached_h_dir
 
 func update_coyote_time(delta: float) -> void:
 	if player.is_on_floor():
