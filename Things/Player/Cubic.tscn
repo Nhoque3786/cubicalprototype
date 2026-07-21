@@ -1,7 +1,8 @@
 [gd_scene format=3 uid="uid://danjkgpgpc651"]
 
-[ext_resource type="Texture2D" uid="uid://dlqv3fpygt12o" path="res://Things/Player/Internals/cubic.png" id="1_2p1al"]
-[ext_resource type="Script" uid="uid://ddbds3ketewo5" path="res://Things/Player/Internals/player.gd" id="1_gliux"]
+[ext_resource type="Texture2D" uid="uid://dlqv3fpygt12o" path="res://Things/Player/cubic.png" id="1_2p1al"]
+[ext_resource type="Script" uid="uid://ddbds3ketewo5" path="res://Things/Player/Scripts/player.gd" id="1_gliux"]
+
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gliux"]
 atlas = ExtResource("1_2p1al")

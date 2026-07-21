@@ -42,6 +42,8 @@ func _ready() -> void:
 
 	if level_node == null:
 		level_node = get_node_or_null("Level") as Node3D
+		if level_node == null and get_parent() != null:
+			level_node = get_parent().get_node_or_null("Level") as Node3D
 		if level_node == null:
 			level_node = find_child("Level*", true, false) as Node3D
 
