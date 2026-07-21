@@ -1,18 +1,20 @@
 [gd_scene format=3 uid="uid://b1s3nodofqykw"]
 
-[ext_resource type="Script" uid="uid://cqn503nr5wl1t" path="res://Things/Hyprcore/Hyprcore.gd" id="1_tlmg4"]
+[ext_resource type="Script" uid="uid://cqn503nr5wl1t" path="res://System/Hyprcore/Hyprcore.gd" id="1_tlmg4"]
 [ext_resource type="MeshLibrary" uid="uid://dk6dhovveardr" path="res://Things/Blocks/Testing/testingblocks.tres" id="2_7d0ke"]
 [ext_resource type="PackedScene" uid="uid://danjkgpgpc651" path="res://Things/Player/Cubic.tscn" id="3_7d0ke"]
-[ext_resource type="PackedScene" uid="uid://bxp62fmgyw0at" path="res://Things/Camera/Camera.tscn" id="4_18icj"]
+[ext_resource type="PackedScene" uid="uid://bxp62fmgyw0at" path="res://System/Hyprcore/Camera/Camera.tscn" id="4_18icj"]
 
 [sub_resource type="Environment" id="Environment_18icj"]
 background_mode = 1
 ambient_light_source = 2
 ambient_light_color = Color(1, 1, 1, 1)
 
-[node name="World" type="Node3D" unique_id=916488818 node_paths=PackedStringArray("level_node")]
+[node name="World" type="Node3D" unique_id=916488818]
+
+[node name="Hyprcore" type="Node3D" parent="." unique_id=1412586734 node_paths=PackedStringArray("level_node")]
 script = ExtResource("1_tlmg4")
-level_node = NodePath("Level")
+level_node = NodePath("../Level")
 
 [node name="Level" type="Node3D" parent="." unique_id=1681891380]
 
