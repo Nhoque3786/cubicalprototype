@@ -1,18 +1,20 @@
 [gd_scene format=3 uid="uid://67ysaqe4xhk8"]
 
-[ext_resource type="Script" uid="uid://cqn503nr5wl1t" path="res://Things/Hyprcore/Hyprcore.gd" id="1_e1g30"]
+[ext_resource type="Script" uid="uid://cqn503nr5wl1t" path="res://System/Hyprcore/Hyprcore.gd" id="1_e1g30"]
 [ext_resource type="MeshLibrary" uid="uid://dk6dhovveardr" path="res://Things/Blocks/Testing/testingblocks.tres" id="2_57kbe"]
 [ext_resource type="PackedScene" uid="uid://danjkgpgpc651" path="res://Things/Player/Cubic.tscn" id="3_ga2a5"]
-[ext_resource type="PackedScene" uid="uid://bxp62fmgyw0at" path="res://Things/Camera/Camera.tscn" id="4_c6uyu"]
+[ext_resource type="PackedScene" uid="uid://bxp62fmgyw0at" path="res://System/Hyprcore/Camera/Camera.tscn" id="4_c6uyu"]
 
 [sub_resource type="Environment" id="Environment_18icj"]
 background_mode = 1
 ambient_light_source = 2
 ambient_light_color = Color(1, 1, 1, 1)
 
-[node name="World" type="Node3D" unique_id=916488818 node_paths=PackedStringArray("level_node")]
+[node name="World" type="Node3D" unique_id=916488818]
+
+[node name="Hyprcore" type="Node3D" parent="." unique_id=1412586734 node_paths=PackedStringArray("level_node")]
 script = ExtResource("1_e1g30")
-level_node = NodePath("Level")
+level_node = NodePath("../Level")
 
 [node name="Level" type="Node3D" parent="." unique_id=1681891380]
 
@@ -34,4 +36,3 @@ environment = SubResource("Environment_18icj")
 [node name="Camera" parent="." unique_id=13397179 node_paths=PackedStringArray("target") instance=ExtResource("4_c6uyu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 11)
 target = NodePath("../Level/Cubic")
-radius = 16.0
