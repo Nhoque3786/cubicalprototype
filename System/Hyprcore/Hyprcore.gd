@@ -23,7 +23,7 @@ var target_rotation_y_deg: float = 0.0
 @export var projected_snap_tolerance: float = 0.55
 @export var max_floor_snap_height: float = 3.0
 @export var snap_speed: float = 0.0
-@export_range(32, 512) var search_depth_radius: int = 64
+@export_range(32, 512) var search_depth_radius: int = 32
 enum DepthPriority { NEAREST, FRONTMOST, BEHINDMOST }
 @export var grounded_depth_priority: DepthPriority = DepthPriority.NEAREST
 @export var airborne_depth_priority: DepthPriority = DepthPriority.BEHINDMOST
@@ -42,6 +42,8 @@ func _ready() -> void:
 
 	if level_node == null:
 		level_node = get_node_or_null("Level") as Node3D
+		if level_node == null and get_parent() != null:
+			level_node = get_parent().get_node_or_null("Level") as Node3D
 		if level_node == null:
 			level_node = find_child("Level*", true, false) as Node3D
 

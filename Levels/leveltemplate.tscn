@@ -1,9 +1,12 @@
 [gd_scene format=3 uid="uid://cruc70bje60rq"]
 
-[ext_resource type="Script" uid="uid://cqn503nr5wl1t" path="res://Things/Hyprcore/Hyprcore.gd" id="1_5tvth"]
-[ext_resource type="PackedScene" uid="uid://bxp62fmgyw0at" path="res://Things/Camera/Camera.tscn" id="2_v8qrm"]
+[ext_resource type="Script" uid="uid://cqn503nr5wl1t" path="res://System/Hyprcore/Hyprcore.gd" id="1_5tvth"]
+[ext_resource type="PackedScene" uid="uid://bxp62fmgyw0at" path="res://System/Hyprcore/Camera/Camera.tscn" id="2_v8qrm"]
+
 
 [node name="World" type="Node3D" unique_id=916488818]
+
+[node name="Hyprcore" type="Node3D" parent="." unique_id=987654321]
 script = ExtResource("1_5tvth")
 
 [node name="Camera" parent="." unique_id=13397179 instance=ExtResource("2_v8qrm")]

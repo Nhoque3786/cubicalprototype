@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://bxp62fmgyw0at"]
+
+[ext_resource type="Script" uid="uid://ma2fydjdph4i" path="res://System/Hyprcore/Camera/Camera.gd" id="1_6yjtb"]
+
+[node name="Camera" type="Node3D" unique_id=13397179]
+script = ExtResource("1_6yjtb")
+
+[node name="SpringArm3D" type="SpringArm3D" parent="." unique_id=596134329]
+spring_length = 8.0
+margin = 0.1
+
+[node name="ActualCamera" type="Camera3D" parent="SpringArm3D" unique_id=1117174228]
+projection = 1
+size = 6.0
+near = 0.1
+far = 2000.0
