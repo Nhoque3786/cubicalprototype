@@ -41,15 +41,19 @@ static func rotate_world(core: Hyprcore) -> void:
 	if player != null:
 		player.set_physics_process(true)
 
-	await core.get_tree().physics_frame
-
 	# If the player is NOT a child of level_node, we must manually move them
-	# to their new global position after the rotation.
+	# to their new global position after the rotation. This has to happen
+	# BEFORE we wait for a physics frame, otherwise move_and_slide()/is_on_floor()
+	# would be evaluated at the stale, pre-rotation position.
 	if player != null and player.get_parent() != core.level_node:
 		if has_player_position:
 			player.global_position = core.level_node.to_global(player_level_position)
 
-	core.snap_to_grid(player, true)
+	await core.get_tree().physics_frame
+
+	# Snapping is owned by Player._on_rotation_finished (connected to the
+	# rotation_finished signal emitted right after this), so we don't do it
+	# here too - that would risk two different is_on_floor() outcomes.
 
 # Snaps the world to a given side immediately, with no tween/animation.
 static func set_world_side_instant(core: Hyprcore, side: Hyprcore.WorldSide) -> void:

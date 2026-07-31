@@ -23,6 +23,7 @@ signal respawned
 @export var coyote_time: float = 0.15
 @export var jump_buffer_time: float = 0.12
 @export var jump_cut_multiplier: float = 0.4
+@export var terminal_fall_speed: float = 40.0
 
 @export_group("Visuals")
 @export var animated_sprite: AnimatedSprite3D
@@ -87,9 +88,6 @@ func _ready() -> void:
 	_align_to_world()
 
 func _physics_process(delta: float) -> void:
-	if rip.is_dead():
-		return
-
 	if rip.check_death():
 		return
 
@@ -161,7 +159,10 @@ func _on_rotation_finished() -> void:
 	if movement:
 		movement.update_cached_directions()
 	if hyprcore:
-		hyprcore.snap_to_grid(self, true)
+		# assume_grounded: is_on_floor() is stale right after a rotation
+		# (we haven't run a physics step at the new position yet), so we
+		# force grounded depth priority to avoid floating onto the wrong plane.
+		hyprcore.snap_to_grid(self, true, true)
 
 # Force the body upright/world-aligned. Position still follows the level (so Cubic
 # arcs along with the spin), but the collider never rotates into the depth axis.

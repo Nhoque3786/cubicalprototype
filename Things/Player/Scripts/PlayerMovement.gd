@@ -73,6 +73,9 @@ func apply_friction(move_dir: Vector3, delta: float) -> void:
 
 func apply_gravity(delta: float) -> void:
 	player.velocity.y -= player.gravity * delta
+	# Clamp fall speed so move_and_slide() can't tunnel through thin colliders
+	# during long falls.
+	player.velocity.y = max(player.velocity.y, -player.terminal_fall_speed)
 
 func process_jump(delta: float) -> bool:
 	var did_jump: bool = false

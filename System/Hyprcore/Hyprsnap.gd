@@ -105,6 +105,9 @@ static func _get_grid_snap_position(core: Hyprcore, body: CharacterBody3D, origi
 	var x_is_depth: bool = abs(local_depth_dir.x) > abs(local_depth_dir.z)
 	var depth_dir_sign: float = local_depth_dir.x if x_is_depth else local_depth_dir.z
 	var depth_center: int = center_cell.x if x_is_depth else center_cell.z
+	# Derive the "same lane" tolerance from the grid's actual cell size along the
+	# depth axis, instead of a magic constant that only made sense for cell_size ~= 1.0.
+	var depth_lane_epsilon: float = (cell_size.x if x_is_depth else cell_size.z) * 0.1
 
 	var best_depth_offset: float = 0.0
 	var best_score: float = INF
@@ -160,7 +163,7 @@ static func _get_grid_snap_position(core: Hyprcore, body: CharacterBody3D, origi
 				# Score prioritizes closeness on the 2D plane (horizontal + vertical).
 				var score: float = horizontal_distance * 10.0 + floor_distance
 
-				if _is_better_depth_candidate(priority, score, depth_distance, depth_position, best_score, best_depth_distance, best_depth_position, has_candidate):
+				if _is_better_depth_candidate(priority, score, depth_distance, depth_position, best_score, best_depth_distance, best_depth_position, has_candidate, depth_lane_epsilon):
 					best_score = score
 					best_depth_position = depth_position
 					best_depth_distance = depth_distance
@@ -187,21 +190,22 @@ static func _is_better_depth_candidate(
 	best_score: float,
 	best_depth_distance: float,
 	best_depth_position: float,
-	has_candidate: bool
+	has_candidate: bool,
+	depth_lane_epsilon: float = 0.1
 	) -> bool:
 	if not has_candidate:
 		return true
 
 	match priority:
 		Hyprcore.DepthPriority.FRONTMOST:
-			if depth_position > best_depth_position + 0.1: return true
-			if depth_position < best_depth_position - 0.1: return false
+			if depth_position > best_depth_position + depth_lane_epsilon: return true
+			if depth_position < best_depth_position - depth_lane_epsilon: return false
 		Hyprcore.DepthPriority.BEHINDMOST:
-			if depth_position < best_depth_position - 0.1: return true
-			if depth_position > best_depth_position + 0.1: return false
+			if depth_position < best_depth_position - depth_lane_epsilon: return true
+			if depth_position > best_depth_position + depth_lane_epsilon: return false
 		_: # NEAREST
-			if depth_distance < best_depth_distance - 0.1: return true
-			if depth_distance > best_depth_distance + 0.1: return false
+			if depth_distance < best_depth_distance - depth_lane_epsilon: return true
+			if depth_distance > best_depth_distance + depth_lane_epsilon: return false
 
 	# If candidates are in the same depth "lane", pick the one with the better score.
 	return score < best_score
