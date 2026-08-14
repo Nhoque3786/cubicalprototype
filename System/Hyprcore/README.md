@@ -20,7 +20,9 @@ Hyprcore manages the 90-degree rotations that define the game's perspective shif
 
 ### 2. Hyprgrid (Grid Snapping)
 To prevent players from falling off or being misaligned after a "reality shift," Hyprcore includes a dual-layer snapping system.
+- **Dual-Layer Snapping:** First attempts to snap to a `GridMap` lane; if no valid lane is found, it falls back to raycasting against solid level geometry.
 - **View-Depth Alignment:** Snaps along the camera's depth axis instead of assuming world `Z` is always the active depth lane.
+- **Smart Lane Detection:** Dynamically calculates depth lane tolerance based on actual `GridMap` cell size, ensuring precise alignment.
 - **Infinite Depth Snapping:** Searches deep into the camera's projection to allow Cubic to stand on any visible platform.
 - **Smooth Depth Snapping:** Uses frame-independent exponential smoothing to glide Cubic between depth layers, preventing "popping" visuals.
 - **Depth Priority:** Supports `NEAREST`, `FRONTMOST`, and `BEHINDMOST` selection when multiple blocks overlap in the current 2D view.
