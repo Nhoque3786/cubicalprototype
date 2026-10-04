@@ -18,6 +18,10 @@ boot_splash/stretch_mode=0
 boot_splash/image="uid://cidfeuejcbte1"
 config/icon="uid://cidfeuejcbte1"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/AsepriteWizard/plugin.cfg")
+
 [file_customization]
 
 folder_colors={
