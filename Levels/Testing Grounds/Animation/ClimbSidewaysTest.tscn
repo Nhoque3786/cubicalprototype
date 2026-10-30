@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://kd28sxvhbody"]
+
+[ext_resource type="Script" uid="uid://bp8negvk5i8c3" path="res://Levels/Testing Grounds/Playable/ClimbSidewaysTest.gd" id="1_script"]
+[ext_resource type="SpriteFrames" uid="uid://byaq7t2l6yuqm" path="res://Things/Player/cubic.ase" id="2_frames"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_wall"]
+size = Vector3(0.5, 6, 4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wall"]
+albedo_color = Color(0.45, 0.45, 0.5, 1)
+
+[sub_resource type="Environment" id="Environment_climb"]
+background_mode = 1
+background_color = Color(0.18, 0.2, 0.25, 1)
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+
+[node name="ClimbSidewaysTest" type="Node3D" unique_id=2009223481 node_paths=PackedStringArray("sprite")]
+script = ExtResource("1_script")
+sprite = NodePath("AnimatedSprite3D")
+
+[node name="Wall" type="MeshInstance3D" parent="." unique_id=1733258753]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 1.5, -2)
+mesh = SubResource("BoxMesh_wall")
+surface_material_override/0 = SubResource("StandardMaterial3D_wall")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="." unique_id=1553743588]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.24910837, 0, 0)
+pixel_size = 0.0625
+billboard = 1
+texture_filter = 0
+sprite_frames = ExtResource("2_frames")
+animation = &"Climb_side_idle"
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1787605778]
+environment = SubResource("Environment_climb")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=273408593]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 5)
+projection = 1
+size = 7.356

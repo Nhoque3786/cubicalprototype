@@ -61,6 +61,8 @@ func _ready() -> void:
 		animator.name = "PlayerAnimator"
 		animator.animated_sprite = animated_sprite
 		add_child(animator)
+	if animator:
+		animator.reference_walk_speed = speed
 
 	# If no movement component exists, try to find it or create it
 	movement = find_child("PlayerMovement", true, false) as PlayerMovement
@@ -128,9 +130,9 @@ func _physics_process(delta: float) -> void:
 			hyprcore.snap_to_grid(self)
 
 	if animator:
-		animator.reference_walk_speed = speed
 		var h_vel: float = velocity.dot(h_dir)
-		animator.update_animation(h_vel, velocity.y, is_on_floor_now, input_h, did_jump, just_landed, max_fall_speed, delta)
+		var anim_input_h: float = 0.0 if current_state == State.ROTATING else input_h
+		animator.update_animation(h_vel, velocity.y, is_on_floor_now, anim_input_h, did_jump, just_landed, max_fall_speed, delta)
 
 	if just_landed:
 		max_fall_speed = 0.0

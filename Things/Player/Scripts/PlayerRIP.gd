@@ -108,9 +108,13 @@ func trigger_death() -> void:
 	_play_death_sequence()
 
 func _play_death_sequence() -> void:
-	if player.animated_sprite and player.animated_sprite.sprite_frames and player.animated_sprite.sprite_frames.has_animation(&"death_fall"):
+	var death_anim: StringName = &"Death_fall"
+	if player.animated_sprite and player.animated_sprite.sprite_frames and not player.animated_sprite.sprite_frames.has_animation(death_anim):
+		death_anim = &"death_fall"
+	if player.animated_sprite and player.animated_sprite.sprite_frames and player.animated_sprite.sprite_frames.has_animation(death_anim):
+		player.animated_sprite.sprite_frames.set_animation_loop(death_anim, false)
 		player.animated_sprite.speed_scale = 1.0
-		player.animated_sprite.play(&"death_fall")
+		player.animated_sprite.play(death_anim)
 
 		var done := [false]
 		var mark_done := func(): done[0] = true
