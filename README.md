@@ -24,12 +24,8 @@ Mostly, *Open Source* Software!
 
 ### Game Engine
 - [Godot](https://godotengine.org/)
-
-### Sound
-- [OpenMPT](https://www.openmpt.org/)
-- [Furnace Tracker](https://github.com/tildearrow/furnace)
-- [MilkyTracker](https://milkytracker.org)
-- [Audacity](https://www.audacityteam.org/)
+#### Godot Plugins
+- [AsepriteWizard](https://godotengine.org/asset-library/asset/713)
 
 ### Code Editors / IDEs
  - [Zed](https://zed.dev/)
