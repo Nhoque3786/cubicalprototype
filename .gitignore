@@ -14,10 +14,12 @@ data_*/
 mono_crash.*.json
 
 # JetBrains IDE ignores
-.idea/
+.idea/*
 *.iml
 *.iws
 *.ipr
+# MINUS the logo, lmao
+!.idea/icon.svg
 
 # AI assistant tool ignores
 .claude/

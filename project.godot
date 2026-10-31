@@ -15,8 +15,8 @@ run/main_scene="res://Levels/Testing Grounds/Playable/PlayerTesting.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 boot_splash/bg_color=Color(0.21960784, 0.7058824, 1, 1)
 boot_splash/stretch_mode=0
-boot_splash/image="uid://cidfeuejcbte1"
-config/icon="uid://cidfeuejcbte1"
+boot_splash/image="uid://c7l031har46kn"
+config/icon="uid://c7l031har46kn"
 
 [editor_plugins]
 
